@@ -8,10 +8,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import es.rudo.pokedex.presentation.theme.ColorRed
+import es.rudo.pokedex.presentation.theme.LightRed
 import es.rudo.pokedex.presentation.theme.PokedexTheme
-import kotlinx.coroutines.selects.select
 
 @Composable
 fun PokedexBottomNavigationView() {
@@ -25,7 +27,7 @@ fun PokedexBottomNavigationView() {
     )
 
     BottomNavigation(
-        backgroundColor = Color.White,
+        backgroundColor = ColorRed,
         modifier = Modifier.fillMaxWidth()
     ) {
         navigationItems.forEach { item ->
@@ -38,14 +40,18 @@ fun PokedexBottomNavigationView() {
                         modifier = Modifier.size(24.dp)
                     )
                 },
-                label = { Text(text = item.title) },
+                label = {
+                    Text(text = item.title)
+                },
                 alwaysShowLabel = true,
                 selected = selected,
+                selectedContentColor = Color.White,
+                unselectedContentColor = Color.White.copy(0.75f),
                 onClick = {
-                    selected = !selected
+
                 },
                 modifier = Modifier.background(
-                    if (selected) Color.Red
+                    if (selected) LightRed
                     else Color.Transparent
                 )
             )
