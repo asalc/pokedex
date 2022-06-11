@@ -10,6 +10,4 @@ sealed class NavigationItem(
     object Berries: NavigationItem("berries", R.drawable.ic_berry, "Berries")
     object Pokemon: NavigationItem("pokemon", R.drawable.ic_pokeball, "Pokémon")
     object Items: NavigationItem("items", R.drawable.ic_potion, "Items")
-
-    var selected = false
 }
