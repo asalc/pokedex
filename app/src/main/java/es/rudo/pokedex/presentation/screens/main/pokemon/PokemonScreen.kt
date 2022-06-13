@@ -1,4 +1,4 @@
-package es.rudo.pokedex.presentation.screens.main.berries
+package es.rudo.pokedex.presentation.screens.main.pokemon
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,13 +11,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import es.rudo.pokedex.presentation.theme.PokedexTheme
 
 @Composable
-fun BerriesScreen() {
+fun PokemonScreen() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        Text(text = "BERRIES")
+        Text(text = "POKEMON")
     }
 }
 
@@ -26,8 +26,8 @@ fun BerriesScreen() {
     showBackground = true
 )
 @Composable
-fun BerriesScreenPreview() {
+fun PokemonScreenPreview() {
     PokedexTheme {
-        BerriesScreen()
+        PokemonScreen()
     }
 }

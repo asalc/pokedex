@@ -28,7 +28,7 @@ class ItemsViewModel @Inject constructor(
         viewModelScope.launch {
             getItemsUseCase()
             try {
-                for (i in offset..(offset + limit + 1)) {
+                for (i in offset until offset + limit) {
                     itemsList.add(
                         getItemByIdUseCase(i).fold(
                             ifLeft = { error -> throw error },
