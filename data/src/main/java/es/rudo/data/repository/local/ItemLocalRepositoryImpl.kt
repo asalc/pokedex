@@ -44,4 +44,7 @@ class ItemLocalRepositoryImpl(
             .map { it.toDomain() }
             .toTypedArray()
     }
+
+    override suspend fun getCount(): Int =
+        itemLocalDataSource.getCount()
 }

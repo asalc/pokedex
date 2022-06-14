@@ -29,4 +29,7 @@ interface ItemLocalDataSource {
 
     @Query("SELECT * FROM $ITEMS WHERE item_id LIKE :id")
     fun getByItemId(id: Int): Array<ItemLocalDto>
+
+    @Query("SELECT COUNT(*) FROM $ITEMS")
+    fun getCount(): Int
 }

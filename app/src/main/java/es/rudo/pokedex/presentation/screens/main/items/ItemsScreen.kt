@@ -1,17 +1,18 @@
 package es.rudo.pokedex.presentation.screens.main.items
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,21 +26,25 @@ import es.rudo.domain.model.Language
 fun ItemsScreen(
     viewModel: ItemsViewModel = hiltViewModel()
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-
-    //When this composable is created, viewModel.getItems() is called
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_CREATE)
-                viewModel.getItems()
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        ItemsGrid(
+            items = viewModel.itemsList,
+            modifier = Modifier.weight(1f)
+        )
+        Button(
+            onClick = { viewModel.nextPage() },
+            modifier = Modifier.weight(0.1f)
+                .fillMaxWidth()
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 8.dp
+                )
+        ) {
+            Text(text = "Next")
         }
     }
-
-    ItemsGrid(items = viewModel.itemsList)
 }
 
 @Composable

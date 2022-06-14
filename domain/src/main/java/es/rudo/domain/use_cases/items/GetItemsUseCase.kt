@@ -13,26 +13,20 @@ class GetItemsUseCase(
     private val itemRemoteRepository: ItemRemoteRepository,
     private val getItemByIdUseCase: GetItemByIdUseCase
 ) {
-    suspend operator fun invoke(): Either<Throwable, Pager<Generic>> =
+    suspend operator fun invoke(limit: Int): Either<Throwable, Int> =
         withContext(Dispatchers.IO) {
             return@withContext Either.catch {
-                if (itemLocalRepository.getAll().isEmpty()) {
-                    itemRemoteRepository.getItems().fold(
-                        ifLeft = { error -> throw error },
-                        ifRight = { itemPager ->
-                            itemPager
-                        }
-                    ).apply {
-                        if (itemLocalRepository.getAll().isEmpty()) {
-                            for (i in 1..20) {
-                                getItemByIdUseCase(id = i)
+                itemRemoteRepository.getItems().fold(
+                    ifLeft = { error -> throw error },
+                    ifRight = { itemPager ->
+                        if (itemLocalRepository.getCount() < limit) {
+                            for (i in 1 until limit + 1) {
+                                getItemByIdUseCase(i)
                             }
                         }
+                        itemPager.count
                     }
-                }
-                else {
-                    Pager()
-                }
+                )
             }
         }
 }

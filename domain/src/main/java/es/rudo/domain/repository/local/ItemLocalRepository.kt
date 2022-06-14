@@ -15,4 +15,6 @@ interface ItemLocalRepository {
     suspend fun getAll(): Array<Item>
 
     suspend fun getByItemId(id: Int): Array<Item>
+
+    suspend fun getCount(): Int
 }
