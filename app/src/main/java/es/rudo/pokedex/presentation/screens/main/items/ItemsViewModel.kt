@@ -10,6 +10,7 @@ import es.rudo.domain.use_cases.items.GetItemByIdUseCase
 import es.rudo.domain.use_cases.items.GetItemsUseCase
 import es.rudo.pokedex.App
 import es.rudo.pokedex.R
+import es.rudo.pokedex.UiState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,8 +20,8 @@ class ItemsViewModel @Inject constructor(
     private val getItemByIdUseCase: GetItemByIdUseCase
 ) : ViewModel() {
 
-    val itemsList = mutableStateListOf<Item>()
-    val errorMessage = mutableStateOf(0)
+    var itemsList = mutableStateListOf<Item>()
+    val uiState = mutableStateOf<UiState>(UiState.Loading)
 
     private var offset: Int = 1
     private val limit: Int = 20
@@ -43,14 +44,17 @@ class ItemsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getItemsUseCase(limit).fold(
-                    ifLeft = { error -> throw error },
+                    ifLeft = { error ->
+                        uiState.value = UiState.Error(R.string.network_error)
+                        throw error
+                    },
                     ifRight = { itemCount ->
                         totalCount = itemCount
                         getItems()
                     }
                 )
             } catch (e: Exception) {
-                errorMessage.value = R.string.network_error
+                uiState.value = UiState.Error(R.string.network_error)
             }
         }
     }
@@ -58,12 +62,17 @@ class ItemsViewModel @Inject constructor(
     private fun getItems() {
         viewModelScope.launch {
             try {
+                itemsList.clear()
                 val firstIndex = offset
+                val items: ArrayList<Item> = ArrayList()
                 for (i in firstIndex until firstIndex + limit) {
                     if (i <= totalCount) {
-                        itemsList.add(
+                        items.add(
                             getItemByIdUseCase(i).fold(
-                                ifLeft = { error -> throw error },
+                                ifLeft = { error ->
+                                    uiState.value = UiState.Error(R.string.network_error)
+                                    throw error
+                                },
                                 ifRight = { item ->
                                     if (offset < firstIndex + limit)
                                         offset++
@@ -73,8 +82,10 @@ class ItemsViewModel @Inject constructor(
                         )
                     }
                 }
+                itemsList.addAll(items)
+                uiState.value = UiState.ShowContent
             } catch (e: Exception) {
-                errorMessage.value = R.string.network_error
+                uiState.value = UiState.Error(R.string.network_error)
             }
         }
     }

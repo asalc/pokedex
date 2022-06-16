@@ -1,49 +1,59 @@
 package es.rudo.pokedex.presentation.screens.main.items
 
+import android.content.Context
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import es.rudo.domain.model.Item
 import es.rudo.domain.model.Language
+import es.rudo.pokedex.R
+import es.rudo.pokedex.UiState
+import es.rudo.pokedex.presentation.components.ErrorPopUp
+import es.rudo.pokedex.presentation.components.PageButtons
+import es.rudo.pokedex.presentation.components.ProgressLoader
 
 @Composable
 fun ItemsScreen(
+    context: Context,
     viewModel: ItemsViewModel = hiltViewModel()
 ) {
-    Column(
+    Crossfade(targetState = viewModel.uiState) {
+        when (it.value) {
+            is UiState.Loading -> ProgressLoader()
+            is UiState.Error -> {
+                ErrorPopUp(
+                    context.getString(R.string.network_error)
+                )
+            }
+            is UiState.ShowContent -> ItemsContent(viewModel)
+        }
+    }
+}
+
+@Composable
+fun ItemsContent(
+    viewModel: ItemsViewModel
+) {
+    ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        ItemsGrid(
-            items = viewModel.itemsList,
-            modifier = Modifier.weight(1f)
+
+        ItemsGrid(items = viewModel.itemsList)
+        PageButtons(
+            onClickPrevious = { viewModel.previousPage() },
+            onClickNext = { viewModel.nextPage() }
         )
-        Button(
-            onClick = { viewModel.nextPage() },
-            modifier = Modifier.weight(0.1f)
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 8.dp
-                )
-        ) {
-            Text(text = "Next")
-        }
     }
 }
 
