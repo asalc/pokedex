@@ -23,7 +23,8 @@ class ItemsViewModel @Inject constructor(
     var itemsList = mutableStateListOf<Item>()
     val uiState = mutableStateOf<UiState>(UiState.Loading)
 
-    private var offset: Int = 1
+    var page = mutableStateOf(1)
+
     private val limit: Int = 20
     private var totalCount = 0
 
@@ -32,13 +33,17 @@ class ItemsViewModel @Inject constructor(
     }
 
     fun nextPage() {
+        page.value += 1
         getItems()
     }
 
     fun previousPage() {
-        offset -= limit
+        page.value -= 1
         getItems()
     }
+
+    fun isPreviousButtonVisible(): Boolean = page.value > 1
+    fun isNextButtonVisible(): Boolean = page.value * limit + 1 < totalCount
 
     private fun getItemsTotalCount() {
         viewModelScope.launch {
@@ -62,27 +67,24 @@ class ItemsViewModel @Inject constructor(
     private fun getItems() {
         viewModelScope.launch {
             try {
+                uiState.value = UiState.Loading
                 itemsList.clear()
-                val firstIndex = offset
-                val items: ArrayList<Item> = ArrayList()
+                val firstIndex = page.value * limit - limit + 1
                 for (i in firstIndex until firstIndex + limit) {
                     if (i <= totalCount) {
-                        items.add(
+                        itemsList.add(
                             getItemByIdUseCase(i).fold(
                                 ifLeft = { error ->
                                     uiState.value = UiState.Error(R.string.network_error)
                                     throw error
                                 },
                                 ifRight = { item ->
-                                    if (offset < firstIndex + limit)
-                                        offset++
                                     item
                                 }
                             )
                         )
                     }
                 }
-                itemsList.addAll(items)
                 uiState.value = UiState.ShowContent
             } catch (e: Exception) {
                 uiState.value = UiState.Error(R.string.network_error)

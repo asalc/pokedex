@@ -1,6 +1,7 @@
 package es.rudo.pokedex.presentation.screens.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
             }
 
             PokedexTheme {
-                PokedexApp()
+                PokedexApp(this)
             }
         }
     }
@@ -50,7 +51,9 @@ class MainActivity : ComponentActivity() {
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun PokedexApp() {
+fun PokedexApp(
+    context: Context
+) {
 
     val navController = rememberNavController()
     
@@ -60,6 +63,7 @@ fun PokedexApp() {
         backgroundColor = Color.LightGray.copy(0.15f)
     ) {
         Navigation(
+            context = context,
             navController = navController,
             modifier = Modifier.padding(it)
         )
@@ -72,5 +76,5 @@ fun PokedexApp() {
 )
 @Composable
 fun DefaultPreview() {
-    PokedexApp()
+    PokedexApp(MainActivity())
 }

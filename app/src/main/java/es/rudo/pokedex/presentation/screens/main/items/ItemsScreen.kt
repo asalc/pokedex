@@ -10,10 +10,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import es.rudo.domain.model.Item
 import es.rudo.domain.model.Language
@@ -48,11 +50,31 @@ fun ItemsContent(
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-
-        ItemsGrid(items = viewModel.itemsList)
+        val (items, buttons) = createRefs()
+        ItemsGrid(
+            items = viewModel.itemsList,
+            modifier = Modifier
+                .constrainAs(items) {
+                    start.linkTo(parent.start)
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(buttons.top)
+                    height = Dimension.fillToConstraints
+                }
+        )
         PageButtons(
+            isPreviousButtonVisible = viewModel.isPreviousButtonVisible(),
+            isNextButtonVisible = viewModel.isNextButtonVisible(),
+            page = viewModel.page,
             onClickPrevious = { viewModel.previousPage() },
-            onClickNext = { viewModel.nextPage() }
+            onClickNext = { viewModel.nextPage() },
+            modifier = Modifier
+                .padding(16.dp)
+                .constrainAs(buttons) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                }
         )
     }
 }
@@ -64,9 +86,14 @@ fun ItemsGrid(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            top = 16.dp,
+            end = 16.dp
+        ),
         modifier = modifier
     ) {
-        items(items = items, key = {it.id}) { item ->
+        items(items = items, key = { it.id }) { item ->
             ItemCard(item = item)
         }
     }
