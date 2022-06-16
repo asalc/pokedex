@@ -1,8 +1,7 @@
 package es.rudo.domain.model
 
-enum class Language(val label: String) {
-    JAPANESE("ja"),
-    ROMAJI("roomaji"),
-    SPANISH("es"),
-    ENGLISH("en")
+enum class Language(val tag: String, val label: String) {
+    SPANISH("es", "Español"),
+    ENGLISH("en", "English"),
+    JAPANESE("ja", "日本語")
 }

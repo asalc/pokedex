@@ -38,10 +38,9 @@ fun Item.toLocalDto(): ItemLocalDto =
     ItemLocalDto(
         itemId = id,
         name = name.filter {
-            it.first == Language.JAPANESE.label ||
-            it.first == Language.ROMAJI.label   ||
-            it.first == Language.ENGLISH.label  ||
-            it.first == Language.SPANISH.label
+            it.first == Language.JAPANESE.tag ||
+            it.first == Language.ENGLISH.tag  ||
+            it.first == Language.SPANISH.tag
         } as ArrayList,
         cost = cost,
         spriteUrl = sprite
@@ -52,7 +51,7 @@ private fun mapNamesList(
 ): ArrayList<Pair<String, String>> =
     names.map {
         Pair(
-            it.language?.name ?: Language.ENGLISH.label,
+            it.language?.name ?: Language.ENGLISH.tag,
             it.name ?: "Unknown"
         )
     } as ArrayList
