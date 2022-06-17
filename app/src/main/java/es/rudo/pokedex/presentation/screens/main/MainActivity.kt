@@ -58,7 +58,12 @@ fun PokedexApp(
     val navController = rememberNavController()
     
     Scaffold(
-        bottomBar = { PokedexBottomNavigationView(navController) },
+        bottomBar = {
+            PokedexBottomNavigationView(
+                navController = navController,
+                context = context
+            )
+        },
         modifier = Modifier.fillMaxSize(),
         backgroundColor = Color.LightGray.copy(0.15f)
     ) {

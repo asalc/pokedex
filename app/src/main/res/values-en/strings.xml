@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pokédex</string>
+    <string name="berries">Berries</string>
+    <string name="pokemon">Pokémon</string>
+    <string name="items">Items</string>
+    <string name="network_error">An error has occurred</string>
+    <string name="dismiss_dialog">Close</string>
+    <string name="settings">Settings</string>
+</resources>

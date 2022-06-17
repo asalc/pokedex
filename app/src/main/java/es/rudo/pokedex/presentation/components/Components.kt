@@ -1,39 +1,92 @@
 package es.rudo.pokedex.presentation.components
 
 import android.annotation.SuppressLint
+import android.app.Application
+import android.content.Context
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
+import arrow.core.valid
+import coil.compose.AsyncImagePainter
+import coil.compose.ImagePainter
+import es.rudo.pokedex.App
+import es.rudo.pokedex.R
 import es.rudo.pokedex.presentation.theme.ColorRed
 import es.rudo.pokedex.presentation.theme.PokedexTheme
+import es.rudo.pokedex.presentation.theme.PopUpBackground
 
 @Composable
 fun ProgressLoader() {
-
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PopUpBackground)
+    ) {
+        CircularProgressIndicator(
+            strokeWidth = 4.dp,
+            color = ColorRed,
+            modifier = Modifier.size(60.dp)
+        )
+    }
 }
 
 @Composable
-fun ErrorPopUp(message: String) {
+fun ErrorPopUp(
+    message: String,
+    context: Context,
+    onClose: () -> Unit
+) {
+    var dismissDialog by remember { mutableStateOf(false) }
 
+    if (!dismissDialog) {
+        Dialog(onDismissRequest = { }) {
+            Card(
+                backgroundColor = Color.White,
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .padding(horizontal = 50.dp)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Button(
+                        onClick = {
+                            dismissDialog = true
+                            onClose()
+                        }
+                    ) {
+                        Text(text = context.getString(R.string.dismiss_dialog))
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -117,7 +170,9 @@ fun PageButtons(
 }
 
 @Preview(
-    showBackground = true
+    showBackground = true,
+    widthDp = 80,
+    heightDp = 80
 )
 @Composable
 fun ProgressLoaderPreview() {
@@ -132,7 +187,11 @@ fun ProgressLoaderPreview() {
 @Composable
 fun ErrorPopUpPreview() {
     PokedexTheme {
-        ErrorPopUp("Se ha producido un error")
+        ErrorPopUp(
+            message = "Se ha producido un error",
+            context = App(),
+            onClose = { }
+        )
     }
 }
 

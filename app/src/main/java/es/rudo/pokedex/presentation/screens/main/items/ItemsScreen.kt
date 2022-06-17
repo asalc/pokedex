@@ -1,7 +1,9 @@
 package es.rudo.pokedex.presentation.screens.main.items
 
 import android.content.Context
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.*
+import androidx.compose.animation.core.animate
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,14 +24,18 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import es.rudo.domain.model.Item
 import es.rudo.domain.model.Language
+import es.rudo.pokedex.App
 import es.rudo.pokedex.R
 import es.rudo.pokedex.UiState
+import es.rudo.pokedex.helpers.extensions.toFormattedPrice
 import es.rudo.pokedex.presentation.components.ErrorPopUp
 import es.rudo.pokedex.presentation.components.PageButtons
 import es.rudo.pokedex.presentation.components.ProgressLoader
+import es.rudo.pokedex.presentation.theme.ColorRed
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -36,23 +43,6 @@ import kotlin.collections.ArrayList
 fun ItemsScreen(
     context: Context,
     viewModel: ItemsViewModel = hiltViewModel()
-) {
-    Crossfade(targetState = viewModel.uiState) {
-        when (it.value) {
-            is UiState.Loading -> ProgressLoader()
-            is UiState.Error -> {
-                ErrorPopUp(
-                    context.getString(R.string.network_error)
-                )
-            }
-            is UiState.ShowContent -> ItemsContent(viewModel)
-        }
-    }
-}
-
-@Composable
-fun ItemsContent(
-    viewModel: ItemsViewModel
 ) {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
@@ -83,6 +73,26 @@ fun ItemsContent(
                     bottom.linkTo(parent.bottom)
                 }
         )
+
+        AnimatedVisibility(
+            visible = viewModel.uiState.value
+                    is UiState.Loading,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            ProgressLoader()
+        }
+
+        AnimatedVisibility(
+            visible = viewModel.uiState.value
+                    is UiState.Error
+        ) {
+            ErrorPopUp(
+                message = context.getString(R.string.network_error),
+                context = context,
+                onClose = { viewModel.previousPage() }
+            )
+        }
     }
 }
 
@@ -97,7 +107,7 @@ fun ItemsGrid(
             start = 16.dp,
             top = 16.dp,
             end = 16.dp,
-            bottom = 4.dp,
+            bottom = 16.dp,
         ),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -112,35 +122,47 @@ fun ItemsGrid(
 @Composable
 fun ItemCard(item: Item) {
     val itemName: String = item.name.firstOrNull { name ->
-        name.first == Language.SPANISH.tag
+        name.first == Locale.getDefault().language
     }?.second ?: "Unknown"
+    val itemCost: String = item.cost.toString().toFormattedPrice()
     Card(
         shape = RoundedCornerShape(8.dp),
+        elevation = 8.dp,
         modifier = Modifier
             .fillMaxSize()
     ) {
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(
+                    horizontal = 8.dp,
+                    vertical = 18.dp
+                )
         ) {
             Image(
-                painter = rememberAsyncImagePainter(item.sprite),
+                painter = rememberAsyncImagePainter(
+                    model = item.sprite,
+                    error = painterResource(id = R.drawable.ic_error)
+                ),
                 contentDescription = itemName,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
             )
 
-            for (name in item.name) {
-                if (name.first == Locale.getDefault().language) {
-                    Text(
-                        text = name.second,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
-                }
-            }
+            Text(
+                text = itemName,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "${if (item.cost == 0) "---" else itemCost} ¥",
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
@@ -159,7 +181,7 @@ fun ItemsScreenPreview() {
                 name = arrayListOf(
                     Pair(Language.SPANISH.tag, "Master Ball")
                 ),
-                0,
+                2000,
                 ""
             )
         )

@@ -1,45 +1,46 @@
 package es.rudo.pokedex.navigation
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.tween
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Text
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import es.rudo.pokedex.presentation.theme.ColorRed
 import es.rudo.pokedex.presentation.theme.LightRed
-import es.rudo.pokedex.presentation.theme.PokedexTheme
 
 @Composable
 fun PokedexBottomNavigationView(
-    navController: NavController
+    navController: NavController,
+    context: Context
 ) {
 
     val navigationItems = listOf(
         NavigationItem.Berries,
         NavigationItem.Pokemon,
-        NavigationItem.Items
+        NavigationItem.Items,
+        NavigationItem.Settings
     )
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
@@ -55,17 +56,17 @@ fun PokedexBottomNavigationView(
                 val selected = currentDestination?.hierarchy?.any { destination ->
                     destination.route == item.route
                 } == true
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.width(5.dp))
                 BottomNavigationItem(
                     icon = {
                         Image(
                             painter = painterResource(id = item.icon),
-                            contentDescription = item.title,
+                            contentDescription = context.getString(item.title),
                             modifier = Modifier.size(24.dp)
                         )
                     },
                     label = {
-                        Text(text = item.title)
+                        Text(text = context.getString(item.title))
                     },
                     alwaysShowLabel = true,
                     selected = selected,
@@ -100,7 +101,7 @@ fun PokedexBottomNavigationView(
                             shape = CircleShape.copy(CornerSize(20.dp))
                         )
                 )
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.width(5.dp))
             }
         }
     }

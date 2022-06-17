@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ポケモン図鑑</string>
+    <string name="berries">きのみ</string>
+    <string name="pokemon">ポケモン</string>
+    <string name="items">どうぐ</string>
+    <string name="network_error">エラーが発生しました</string>
+    <string name="dismiss_dialog">閉じる</string>
+    <string name="settings">設定</string>
+</resources>
