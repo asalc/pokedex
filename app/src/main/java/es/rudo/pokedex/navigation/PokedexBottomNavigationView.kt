@@ -23,12 +23,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import es.rudo.pokedex.presentation.theme.ColorRed
 import es.rudo.pokedex.presentation.theme.LightRed
+import java.util.*
 
 @Composable
 fun PokedexBottomNavigationView(
@@ -39,8 +41,7 @@ fun PokedexBottomNavigationView(
     val navigationItems = listOf(
         NavigationItem.Berries,
         NavigationItem.Pokemon,
-        NavigationItem.Items,
-        NavigationItem.Settings
+        NavigationItem.Items
     )
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
@@ -56,12 +57,12 @@ fun PokedexBottomNavigationView(
                 val selected = currentDestination?.hierarchy?.any { destination ->
                     destination.route == item.route
                 } == true
-                Spacer(modifier = Modifier.width(5.dp))
+                Spacer(modifier = Modifier.width(20.dp))
                 BottomNavigationItem(
                     icon = {
                         Image(
                             painter = painterResource(id = item.icon),
-                            contentDescription = context.getString(item.title),
+                            contentDescription = stringResource(item.title),
                             modifier = Modifier.size(24.dp)
                         )
                     },
@@ -101,7 +102,7 @@ fun PokedexBottomNavigationView(
                             shape = CircleShape.copy(CornerSize(20.dp))
                         )
                 )
-                Spacer(modifier = Modifier.width(5.dp))
+                Spacer(modifier = Modifier.width(20.dp))
             }
         }
     }

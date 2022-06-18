@@ -2,8 +2,6 @@ package es.rudo.pokedex.presentation.screens.main.items
 
 import android.content.Context
 import androidx.compose.animation.*
-import androidx.compose.animation.core.animate
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,10 +11,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import es.rudo.domain.model.Item
 import es.rudo.domain.model.Language
@@ -35,13 +31,11 @@ import es.rudo.pokedex.helpers.extensions.toFormattedPrice
 import es.rudo.pokedex.presentation.components.ErrorPopUp
 import es.rudo.pokedex.presentation.components.PageButtons
 import es.rudo.pokedex.presentation.components.ProgressLoader
-import es.rudo.pokedex.presentation.theme.ColorRed
 import java.util.*
 import kotlin.collections.ArrayList
 
 @Composable
 fun ItemsScreen(
-    context: Context,
     viewModel: ItemsViewModel = hiltViewModel()
 ) {
     ConstraintLayout(
@@ -63,8 +57,14 @@ fun ItemsScreen(
             isPreviousButtonVisible = viewModel.isPreviousButtonVisible(),
             isNextButtonVisible = viewModel.isNextButtonVisible(),
             page = viewModel.page,
-            onClickPrevious = { viewModel.previousPage() },
-            onClickNext = { viewModel.nextPage() },
+            onClickPrevious = {
+                if (viewModel.uiState.value != UiState.Loading)
+                    viewModel.previousPage()
+            },
+            onClickNext = {
+                if (viewModel.uiState.value != UiState.Loading)
+                    viewModel.nextPage()
+            },
             modifier = Modifier
                 .padding(16.dp)
                 .constrainAs(buttons) {
@@ -88,10 +88,8 @@ fun ItemsScreen(
                     is UiState.Error
         ) {
             ErrorPopUp(
-                message = context.getString(R.string.network_error),
-                context = context,
-                onClose = { viewModel.previousPage() }
-            )
+                message = stringResource(R.string.network_error)
+            ) { viewModel.previousPage() }
         }
     }
 }
@@ -122,7 +120,7 @@ fun ItemsGrid(
 @Composable
 fun ItemCard(item: Item) {
     val itemName: String = item.name.firstOrNull { name ->
-        name.first == Locale.getDefault().language
+        name.first == App.preferences.getLanguage()
     }?.second ?: "Unknown"
     val itemCost: String = item.cost.toString().toFormattedPrice()
     Card(

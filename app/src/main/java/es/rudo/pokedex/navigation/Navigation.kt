@@ -1,6 +1,5 @@
 package es.rudo.pokedex.navigation
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -9,11 +8,9 @@ import androidx.navigation.compose.composable
 import es.rudo.pokedex.presentation.screens.main.berries.BerriesScreen
 import es.rudo.pokedex.presentation.screens.main.items.ItemsScreen
 import es.rudo.pokedex.presentation.screens.main.pokemon.PokemonScreen
-import es.rudo.pokedex.presentation.screens.main.settings.SettingsScreen
 
 @Composable
 fun Navigation(
-    context: Context,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
@@ -29,10 +26,7 @@ fun Navigation(
             PokemonScreen()
         }
         composable(NavigationItem.Items.route) {
-            ItemsScreen(context)
-        }
-        composable(NavigationItem.Settings.route) {
-            SettingsScreen()
+            ItemsScreen()
         }
     }
 }

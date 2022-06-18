@@ -24,9 +24,4 @@ sealed class NavigationItem(
         icon = R.drawable.ic_potion,
         title = R.string.items
     )
-    object Settings: NavigationItem(
-        route = "settings",
-        icon = R.drawable.ic_settings,
-        title = R.string.settings
-    )
 }

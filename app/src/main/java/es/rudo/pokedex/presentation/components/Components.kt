@@ -1,12 +1,8 @@
 package es.rudo.pokedex.presentation.components
 
 import android.annotation.SuppressLint
-import android.app.Application
-import android.content.Context
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,30 +15,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
-import arrow.core.valid
-import coil.compose.AsyncImagePainter
-import coil.compose.ImagePainter
-import es.rudo.pokedex.App
 import es.rudo.pokedex.R
 import es.rudo.pokedex.presentation.theme.ColorRed
 import es.rudo.pokedex.presentation.theme.PokedexTheme
-import es.rudo.pokedex.presentation.theme.PopUpBackground
 
 @Composable
 fun ProgressLoader() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PopUpBackground)
+
+    Dialog(
+        onDismissRequest = { }
     ) {
         CircularProgressIndicator(
             strokeWidth = 4.dp,
@@ -55,7 +45,6 @@ fun ProgressLoader() {
 @Composable
 fun ErrorPopUp(
     message: String,
-    context: Context,
     onClose: () -> Unit
 ) {
     var dismissDialog by remember { mutableStateOf(false) }
@@ -67,21 +56,47 @@ fun ErrorPopUp(
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(150.dp)
                     .padding(horizontal = 50.dp)
             ) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxSize()
                 ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.75f)
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            text = message,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                     Button(
                         onClick = {
                             dismissDialog = true
                             onClose()
-                        }
+                        },
+                        shape = RoundedCornerShape(
+                            topStart = 0.dp,
+                            topEnd = 0.dp,
+                            bottomStart = 12.dp,
+                            bottomEnd = 12.dp
+                        ),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            backgroundColor = ColorRed
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.25f)
                     ) {
-                        Text(text = context.getString(R.string.dismiss_dialog))
+                        Text(
+                            text = stringResource(R.string.dismiss_dialog),
+                            fontWeight = FontWeight.Normal,
+                            color = Color.White
+                        )
                     }
                 }
             }
@@ -189,7 +204,6 @@ fun ErrorPopUpPreview() {
     PokedexTheme {
         ErrorPopUp(
             message = "Se ha producido un error",
-            context = App(),
             onClose = { }
         )
     }
