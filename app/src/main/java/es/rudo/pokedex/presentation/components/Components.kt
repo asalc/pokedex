@@ -45,6 +45,7 @@ fun ProgressLoader() {
 @Composable
 fun ErrorPopUp(
     message: String,
+    closeText: String,
     onClose: () -> Unit
 ) {
     var dismissDialog by remember { mutableStateOf(false) }
@@ -93,7 +94,7 @@ fun ErrorPopUp(
                             .weight(0.25f)
                     ) {
                         Text(
-                            text = stringResource(R.string.dismiss_dialog),
+                            text = closeText,
                             fontWeight = FontWeight.Normal,
                             color = Color.White
                         )
@@ -204,6 +205,7 @@ fun ErrorPopUpPreview() {
     PokedexTheme {
         ErrorPopUp(
             message = "Se ha producido un error",
+            closeText = "Cerrar",
             onClose = { }
         )
     }

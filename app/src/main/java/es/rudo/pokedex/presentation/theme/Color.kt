@@ -10,4 +10,4 @@ val Teal200 = Color(0xFF03DAC5)
 val ColorRed = Color(0xFFC60C30)
 val LightRed = Color(0x1AC60C30)
 
-val PopUpBackground = Color.LightGray.copy(0.75f)
+val ColorGray = Color(0xFFF7F7F8)
