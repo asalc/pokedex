@@ -34,7 +34,7 @@ interface Api {
     ): Response<ItemRemoteDto>
 
     //POKEMON
-    /*@GET("pokemon")
+    @GET("pokemon")
     suspend fun getPokemon(
         @Query("offset") offset: Int = 0,
         @Query("limit") limit: Int = 1
@@ -48,5 +48,5 @@ interface Api {
     @GET("pokemon-species/{id}")
     suspend fun getPokemonSpecies(
         @Path("id") id: String
-    ): Response<PokemonSpeciesRemoteDto>*/
+    ): Response<PokemonSpeciesRemoteDto>
 }
