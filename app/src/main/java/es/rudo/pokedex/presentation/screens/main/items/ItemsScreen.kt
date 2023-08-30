@@ -5,15 +5,20 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +37,7 @@ import es.rudo.pokedex.helpers.extensions.toFormattedPrice
 import es.rudo.pokedex.presentation.components.ErrorPopUp
 import es.rudo.pokedex.presentation.components.PageButtons
 import es.rudo.pokedex.presentation.components.ProgressLoader
+import es.rudo.pokedex.presentation.theme.ColorRed
 import java.util.*
 
 @Composable
@@ -50,7 +56,7 @@ fun ItemsScreen(
                     start.linkTo(parent.start)
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)
-                    bottom.linkTo(buttons.top)
+                    bottom.linkTo(parent.bottom)
                     height = Dimension.fillToConstraints
                 }
         )
@@ -67,11 +73,18 @@ fun ItemsScreen(
                     viewModel.nextPage()
             },
             modifier = Modifier
+                .clip(CircleShape)
+                .border(width = 1.25.dp, color = ColorRed, shape = CircleShape)
+                .background(Color.White)
+                //.shadow(elevation = 1.dp, shape = CircleShape, clip = true)
                 .padding(16.dp)
                 .constrainAs(buttons) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
+                    bottom.linkTo(
+                        anchor = parent.bottom,
+                        margin = 16.dp
+                    )
                 }
         )
 
