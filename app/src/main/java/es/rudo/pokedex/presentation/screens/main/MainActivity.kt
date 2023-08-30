@@ -9,10 +9,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
@@ -21,14 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import es.rudo.pokedex.App
 import es.rudo.pokedex.R
-import es.rudo.pokedex.helpers.Utils
 import es.rudo.pokedex.navigation.Navigation
 import es.rudo.pokedex.navigation.PokedexBottomNavigationView
 import es.rudo.pokedex.presentation.screens.main.settings.SettingsActivity
@@ -80,7 +76,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun Toolbar() {
+    fun Toolbar(modifier: Modifier = Modifier) {
         val launcher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.StartActivityForResult(),
             onResult = {
@@ -97,9 +93,27 @@ class MainActivity : ComponentActivity() {
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxSize()
+                modifier = modifier.fillMaxSize()
             ) {
+
+                Spacer(modifier = modifier.weight(1.8f))
+
+                Image(
+                    painter = painterResource(
+                        id = R.drawable.pokedex_title_logo
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(
+                            dimensionResource(
+                                id = R.dimen.pokedex_title_height
+                            )
+                        )
+                        .wrapContentWidth()
+                )
+
+                Spacer(modifier = modifier.weight(1.0f))
+
                 IconButton(
                     onClick = {
                         launcher.launch(

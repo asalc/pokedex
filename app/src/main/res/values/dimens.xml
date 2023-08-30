@@ -9,4 +9,7 @@
 
     <!-- Custom paddings -->
     <dimen name="padding_bottom_grid">100dp</dimen>
+
+    <!-- Custom sizes -->
+    <dimen name="pokedex_title_height">32dp</dimen>
 </resources>
