@@ -120,7 +120,10 @@ fun ItemsGrid(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(
-            dimensionResource(R.dimen.padding_regular)
+            top = dimensionResource(R.dimen.padding_regular),
+            start = dimensionResource(R.dimen.padding_regular),
+            end = dimensionResource(R.dimen.padding_regular),
+            bottom = dimensionResource(R.dimen.padding_bottom_grid)
         ),
         horizontalArrangement = Arrangement.spacedBy(
             dimensionResource(R.dimen.padding_mid_small)
