@@ -22,8 +22,11 @@ class PokemonLocalDto(
     val secondType: String? = null,
 
     @ColumnInfo(name = "front_sprite_url")
-    val frontSpriteUrl: String,
+    val frontSpriteUrl: String? = null,
 
     @ColumnInfo(name = "back_sprite_url")
-    val backSpriteUrl: String
+    val backSpriteUrl: String? = null,
+
+    @ColumnInfo(name = "species")
+    val species: ArrayList<Pair<String, String>>? = null
 )

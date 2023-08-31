@@ -6,16 +6,6 @@ import es.rudo.data.model.remote.NameRemoteDto
 import es.rudo.domain.model.Item
 import es.rudo.domain.model.Language
 
-fun ItemRemoteDto.toLocalDto(): ItemLocalDto =
-    ItemLocalDto(
-        itemId = id ?: 0,
-        name = mapNamesList(
-            names ?: ArrayList()
-        ),
-        cost = cost ?: 0,
-        spriteUrl = sprites?.default ?: ""
-    )
-
 fun ItemRemoteDto.toDomain(): Item =
     Item(
         id = id ?: 0,

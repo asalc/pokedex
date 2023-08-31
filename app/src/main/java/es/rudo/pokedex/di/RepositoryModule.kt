@@ -1,5 +1,6 @@
 package es.rudo.pokedex.di
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -7,9 +8,12 @@ import dagger.hilt.components.SingletonComponent
 import es.rudo.data.repository.local.ItemLocalRepositoryImpl
 import es.rudo.data.repository.local.data_source.ItemLocalDataSource
 import es.rudo.data.repository.remote.ItemRemoteRepositoryImpl
+import es.rudo.data.repository.remote.PokemonRemoteRepositoryImpl
 import es.rudo.data.repository.remote.data_source.ItemRemoteDataSource
+import es.rudo.data.repository.remote.data_source.PokemonRemoteDataSource
 import es.rudo.domain.repository.local.ItemLocalRepository
 import es.rudo.domain.repository.remote.ItemRemoteRepository
+import es.rudo.domain.repository.remote.PokemonRemoteRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -44,17 +48,18 @@ class RepositoryModule {
     @Provides
     fun providesItemRemoteRepository(
         itemRemoteDataSource: ItemRemoteDataSource,
-        itemLocalRepository: ItemLocalRepository
+        context: Context
     ): ItemRemoteRepository = ItemRemoteRepositoryImpl(
-        itemRemoteDataSource
+        itemRemoteDataSource,
+        context
     )
 
-    /*@Provides
+    @Provides
     fun providesPokemonRemoteRepository(
         pokemonRemoteDataSource: PokemonRemoteDataSource,
-        pokemonLocalRepository: PokemonLocalRepository
+        context: Context
     ): PokemonRemoteRepository = PokemonRemoteRepositoryImpl(
         pokemonRemoteDataSource,
-        pokemonLocalRepository
-    )*/
+        context
+    )
 }

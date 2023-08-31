@@ -1,8 +1,10 @@
 package es.rudo.data.model.remote
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class PokemonKindRemoteDto(
-    val genus: String? = null,
+    @SerializedName("genus")
+    val name: String? = null,
     val language: GenericRemoteDto? = null
 ): Serializable

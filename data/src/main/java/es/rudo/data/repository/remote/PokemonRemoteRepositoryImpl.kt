@@ -5,25 +5,27 @@ import arrow.core.Either
 import es.rudo.data.R
 import es.rudo.data.mappers.toDomain
 import es.rudo.data.model.remote.GenericRemoteDto
-import es.rudo.data.model.remote.ItemRemoteDto
-import es.rudo.data.repository.remote.data_source.ItemRemoteDataSource
-import es.rudo.domain.model.Generic
-import es.rudo.domain.model.Item
-import es.rudo.domain.repository.remote.ItemRemoteRepository
-import retrofit2.Response
+import es.rudo.data.model.remote.PokemonRemoteDto
+import es.rudo.data.repository.remote.data_source.PokemonRemoteDataSource
 import es.rudo.data.helpers.Pager as DataPager
 import es.rudo.domain.helpers.Pager as DomainPager
+import es.rudo.domain.model.Generic
+import es.rudo.domain.model.Pokemon
+import es.rudo.domain.repository.remote.PokemonRemoteRepository
+import retrofit2.Response
 
-class ItemRemoteRepositoryImpl(
-    private val itemRemoteDataSource: ItemRemoteDataSource,
+class PokemonRemoteRepositoryImpl(
+    private val pokemonRemoteDataSource: PokemonRemoteDataSource,
     private val context: Context
-): ItemRemoteRepository {
-    override suspend fun getItems(
-        offset: Int, limit: Int
-    ): Either<Throwable, DomainPager<Generic>> {
-        return Either.catch {
+): PokemonRemoteRepository {
+
+    override suspend fun getPokemon(
+        offset: Int,
+        limit: Int
+    ): Either<Throwable, DomainPager<Generic>> =
+        Either.catch {
             val response: Response<DataPager<GenericRemoteDto>> =
-                itemRemoteDataSource.getItems(offset, limit)
+                pokemonRemoteDataSource.getPokemon(offset, limit)
             if (response.isSuccessful && response.body() != null) {
                 val pager = response.body()
                 DomainPager<Generic>().apply {
@@ -36,18 +38,16 @@ class ItemRemoteRepositoryImpl(
                 }
             } else throw Exception(context.getString(R.string.generic_error))
         }
-    }
 
-    override suspend fun getItemById(
+    override suspend fun getPokemonById(
         id: String
-    ): Either<Throwable, Item> {
-        return Either.catch {
-            val response: Response<ItemRemoteDto> =
-                itemRemoteDataSource.getItemById(id)
+    ): Either<Throwable, Pokemon> =
+        Either.catch {
+            val response: Response<PokemonRemoteDto> =
+                pokemonRemoteDataSource.getPokemonById(id)
             if (response.isSuccessful && response.body() != null) {
-                val itemRemote = response.body() as ItemRemoteDto
-                itemRemote.toDomain()
+                val pokemonRemote = response.body() as PokemonRemoteDto
+                pokemonRemote.toDomain()
             } else throw Exception(context.getString(R.string.generic_error))
         }
-    }
 }

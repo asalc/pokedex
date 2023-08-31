@@ -7,5 +7,6 @@ class PokemonRemoteDto(
     val name: String? = null,
     val species: GenericRemoteDto? = null,
     val sprites: PokemonSpriteRemoteDto? = null,
-    val types: ArrayList<PokemonTypeRemoteDto>? = null
+    val types: ArrayList<PokemonTypeRemoteDto>? = null,
+    val speciesDetails: PokemonSpeciesRemoteDto? = null
 ): Serializable
