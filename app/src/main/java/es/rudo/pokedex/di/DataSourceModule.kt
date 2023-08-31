@@ -7,8 +7,11 @@ import dagger.hilt.components.SingletonComponent
 import es.rudo.data.api.Api
 import es.rudo.data.database.PokeDatabase
 import es.rudo.data.repository.local.data_source.ItemLocalDataSource
+import es.rudo.data.repository.local.data_source.PokemonLocalDataSource
 import es.rudo.data.repository.remote.data_source.ItemRemoteDataSource
+import es.rudo.data.repository.remote.data_source.PokemonRemoteDataSource
 import es.rudo.data.repository.remote.data_source_impl.ItemRemoteDataSourceImpl
+import es.rudo.data.repository.remote.data_source_impl.PokemonRemoteDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,10 +28,10 @@ class DataSourceModule {
         pokeDatabase: PokeDatabase
     ): ItemLocalDataSource = pokeDatabase.itemDao()
 
-    /*@Provides
+    @Provides
     fun providesPokemonLocalDataSource(
         pokeDatabase: PokeDatabase
-    ): PokemonLocalDataSource = pokeDatabase.pokemonDao()*/
+    ): PokemonLocalDataSource = pokeDatabase.pokemonDao()
 
     //REMOTE
     /*@Provides
@@ -41,8 +44,8 @@ class DataSourceModule {
         api: Api
     ): ItemRemoteDataSource = ItemRemoteDataSourceImpl(api)
 
-    /*@Provides
+    @Provides
     fun providesPokemonRemoteDataSource(
         api: Api
-    ): PokemonRemoteDataSource = PokemonRemoteDataSourceImpl(api)*/
+    ): PokemonRemoteDataSource = PokemonRemoteDataSourceImpl(api)
 }
