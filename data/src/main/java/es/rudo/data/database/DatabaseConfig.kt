@@ -2,7 +2,7 @@ package es.rudo.data.database
 
 object DatabaseConfig {
 
-    const val DATABASE_VERSION = 1
+    const val DATABASE_VERSION = 2
     const val DATABASE_NAME = "poke-database"
 
     object TableNames {

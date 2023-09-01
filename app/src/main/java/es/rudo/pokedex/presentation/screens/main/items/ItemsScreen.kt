@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -50,6 +51,7 @@ fun ItemsScreen(
     ) {
         val (items, buttons) = createRefs()
         ItemsGrid(
+            context = context,
             items = viewModel.itemsList,
             modifier = Modifier
                 .constrainAs(items) {
@@ -76,8 +78,7 @@ fun ItemsScreen(
                 .clip(CircleShape)
                 .border(width = 1.25.dp, color = ColorRed, shape = CircleShape)
                 .background(Color.White)
-                //.shadow(elevation = 1.dp, shape = CircleShape, clip = true)
-                .padding(16.dp)
+                .padding(dimensionResource(R.dimen.padding_regular))
                 .constrainAs(buttons) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
@@ -114,6 +115,7 @@ fun ItemsScreen(
 
 @Composable
 fun ItemsGrid(
+    context: Context,
     items: List<Item>,
     modifier: Modifier = Modifier
 ) {
@@ -134,28 +136,36 @@ fun ItemsGrid(
         modifier = modifier
     ) {
         items(items = items, key = { it.id }) { item ->
-            ItemCard(item = item)
+            ItemCard(
+                context = context,
+                item = item
+            )
         }
     }
 }
 
 @Composable
-fun ItemCard(item: Item) {
+fun ItemCard(
+    context: Context,
+    item: Item
+) {
     val itemName: String = item.name.firstOrNull { name ->
         name.first == Locale.getDefault().language
-    }?.second ?: "Unknown"
+    }?.second ?: context.getString(R.string.unknown)
     val itemCost: String = item.cost.toString().toFormattedPrice()
     Card(
-        shape = RoundedCornerShape(8.dp),
-        elevation = 8.dp,
+        shape = RoundedCornerShape(
+            dimensionResource(R.dimen.corner_radius_small)
+        ),
+        elevation = dimensionResource(R.dimen.elevation_small),
         modifier = Modifier
             .fillMaxSize()
     ) {
         Column(
             modifier = Modifier
                 .padding(
-                    horizontal = 8.dp,
-                    vertical = 18.dp
+                    horizontal = dimensionResource(R.dimen.padding_small),
+                    vertical = dimensionResource(R.dimen.padding_regular)
                 )
         ) {
             Image(
@@ -207,6 +217,7 @@ fun ItemsScreenPreview() {
         )
     }
     ItemsGrid(
+        context = LocalContext.current,
         items = items
     )
 }

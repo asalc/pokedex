@@ -3,12 +3,15 @@ package es.rudo.pokedex.presentation.screens.main.pokemon
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import es.rudo.domain.model.Pokemon
+import es.rudo.domain.use_cases.items.GetItemsUseCase
 import es.rudo.pokedex.UiState
 import javax.inject.Inject
 
+@HiltViewModel
 class PokemonViewModel @Inject constructor(
-
+    private val useCase: GetItemsUseCase
 ): ViewModel() {
 
     var pokemonList = mutableStateListOf<Pokemon>()
@@ -20,17 +23,17 @@ class PokemonViewModel @Inject constructor(
     private var totalCount = 0
 
     init {
-        //getPokemonTotalCount()
+        getPokemonTotalCount()
     }
 
     fun nextPage() {
         page.value += 1
-        //getPokemon()
+        getPokemon()
     }
 
     fun previousPage() {
         page.value -= 1
-        //getPokemon()
+        getPokemon()
     }
 
     fun isPreviousButtonVisible(): Boolean = page.value > 1

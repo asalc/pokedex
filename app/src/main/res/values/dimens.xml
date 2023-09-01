@@ -12,4 +12,10 @@
 
     <!-- Custom sizes -->
     <dimen name="pokedex_title_height">32dp</dimen>
+
+    <!-- Corner radius -->
+    <dimen name="corner_radius_small">8dp</dimen>
+
+    <!-- Elevations -->
+    <dimen name="elevation_small">8dp</dimen>
 </resources>

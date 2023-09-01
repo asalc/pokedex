@@ -7,4 +7,5 @@
     <string name="network_error">Se ha producido un error</string>
     <string name="dismiss_dialog">Cerrar</string>
     <string name="settings">Ajustes</string>
+    <string name="unknown" translatable="false">\?\?\?</string>
 </resources>

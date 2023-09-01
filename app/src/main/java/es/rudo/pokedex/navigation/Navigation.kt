@@ -18,14 +18,14 @@ fun Navigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavigationItem.Items.route,
+        startDestination = NavigationItem.Pokemon.route,
         modifier = modifier
     ) {
         composable(NavigationItem.Berries.route) {
             BerriesScreen()
         }
         composable(NavigationItem.Pokemon.route) {
-            PokemonScreen()
+            PokemonScreen(context)
         }
         composable(NavigationItem.Items.route) {
             ItemsScreen(context)
