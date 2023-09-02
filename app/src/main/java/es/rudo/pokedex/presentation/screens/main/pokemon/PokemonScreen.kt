@@ -4,16 +4,24 @@ import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -35,9 +44,7 @@ import es.rudo.pokedex.presentation.components.ErrorPopUp
 import es.rudo.pokedex.presentation.components.PageButtons
 import es.rudo.pokedex.presentation.components.ProgressLoader
 import es.rudo.pokedex.presentation.theme.ColorRed
-import es.rudo.pokedex.presentation.theme.PokedexTheme
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Locale
 
 private const val POKEMON_TYPE_PREFIX = "ic_type_"
 
@@ -105,7 +112,7 @@ fun PokemonScreen(
                 message = context.getString(R.string.network_error),
                 closeText = context.getString(R.string.dismiss_dialog)
             ) {
-                if (viewModel.page.value > 1)
+                if (viewModel.page.intValue > 1)
                     viewModel.previousPage()
             }
         }
@@ -152,7 +159,7 @@ fun PokemonCard(
         name.first == Locale.getDefault().language
     }?.second ?: context.getString(R.string.unknown)
     val pokemonTypes: ArrayList<Int>? =
-        pokemon.types?.map { type ->
+        pokemon.types?.distinct()?.map { type ->
             PokemonType.values().find {
                 it.label == type?.label
             }?.let {
@@ -176,9 +183,44 @@ fun PokemonCard(
                 .padding(
                     horizontal = dimensionResource(R.dimen.padding_small),
                     vertical = dimensionResource(R.dimen.padding_regular)
-                )
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
+            PokemonTypesRow(
+                pokemonTypes = pokemonTypes,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        }
+    }
+}
 
+@Composable
+fun PokemonTypesRow(
+    pokemonTypes: ArrayList<Int>?,
+    modifier: Modifier
+) {
+    LazyRow(
+        modifier = modifier
+    ) {
+        itemsIndexed(
+            items = pokemonTypes?.toList() ?: emptyList(),
+            key = { id, _ -> id }
+        ) { id, iconId ->
+            Image(
+                painter = painterResource(iconId),
+                contentDescription = null
+            )
+            if (pokemonTypes?.size?.compareTo(1) == 1 && id < 1) {
+                Spacer(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = dimensionResource(
+                                R.dimen.padding_small
+                            )
+                        )
+                )
+            }
         }
     }
 }
