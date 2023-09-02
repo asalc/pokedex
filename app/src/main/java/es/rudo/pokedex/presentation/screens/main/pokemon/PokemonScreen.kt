@@ -148,7 +148,7 @@ fun PokemonCard(
     context: Context,
     pokemon: Pokemon
 ) {
-    val pokemonName: String = pokemon.names.firstOrNull { name ->
+    val pokemonName: String = pokemon.names?.firstOrNull { name ->
         name.first == Locale.getDefault().language
     }?.second ?: context.getString(R.string.unknown)
     val pokemonTypes: ArrayList<Int>? =

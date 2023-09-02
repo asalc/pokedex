@@ -8,20 +8,22 @@ class DatabaseTypeConverters {
 
     @TypeConverter
     fun fromStringArrayListToString(
-        stringArrayList: ArrayList<String>
-    ): String = Gson().toJson(stringArrayList)
+        stringArrayList: ArrayList<String>?
+    ): String? = stringArrayList?.let { Gson().toJson(it) }
 
     @TypeConverter
     fun fromStringToStringArrayList(
-        string: String
+        string: String?
     ): ArrayList<String> =
-        Gson().fromJson(
-            string,
-            TypeToken.getParameterized(
-                ArrayList::class.java,
-                String::class.java
-            ).type
-        )
+        string?.let {
+            Gson().fromJson(
+                string,
+                TypeToken.getParameterized(
+                    ArrayList::class.java,
+                    String::class.java
+                ).type
+            )
+        } ?: arrayListOf()
 
     @TypeConverter
     fun fromStringPairToString(
@@ -39,11 +41,11 @@ class DatabaseTypeConverters {
 
     @TypeConverter
     fun fromPairArrayListToString(
-        pairs: ArrayList<Pair<String, String>>
-    ): String {
-        val stringPairs: ArrayList<String> = pairs.map {
+        pairs: ArrayList<Pair<String, String>>?
+    ): String? {
+        val stringPairs: ArrayList<String>? = pairs?.map {
             fromStringPairToString(it)
-        } as ArrayList
+        } as? ArrayList
         return fromStringArrayListToString(stringPairs)
     }
 

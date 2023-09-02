@@ -13,7 +13,7 @@ class PokemonLocalDto(
     val pokemonId: Int,
 
     @ColumnInfo(name = "name")
-    val name: ArrayList<Pair<String, String>>,
+    val name: ArrayList<Pair<String, String>>? = null,
 
     @ColumnInfo(name = "first_type")
     val firstType: String? = null,

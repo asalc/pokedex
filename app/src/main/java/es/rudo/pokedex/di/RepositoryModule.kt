@@ -7,11 +7,14 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import es.rudo.data.repository.local.ItemLocalRepositoryImpl
 import es.rudo.data.repository.local.data_source.ItemLocalDataSource
+import es.rudo.data.repository.local.data_source.PokemonLocalDataSource
+import es.rudo.data.repository.local.data_source.PokemonLocalRepositoryImpl
 import es.rudo.data.repository.remote.ItemRemoteRepositoryImpl
 import es.rudo.data.repository.remote.PokemonRemoteRepositoryImpl
 import es.rudo.data.repository.remote.data_source.ItemRemoteDataSource
 import es.rudo.data.repository.remote.data_source.PokemonRemoteDataSource
 import es.rudo.domain.repository.local.ItemLocalRepository
+import es.rudo.domain.repository.local.PokemonLocalRepository
 import es.rudo.domain.repository.remote.ItemRemoteRepository
 import es.rudo.domain.repository.remote.PokemonRemoteRepository
 
@@ -30,10 +33,10 @@ class RepositoryModule {
         itemLocalDataSource: ItemLocalDataSource
     ): ItemLocalRepository = ItemLocalRepositoryImpl(itemLocalDataSource)
 
-    /*@Provides
+    @Provides
     fun providesPokemonLocalRepository(
         pokemonLocalDataSource: PokemonLocalDataSource
-    ): PokemonLocalRepository = PokemonLocalRepositoryImpl(pokemonLocalDataSource)*/
+    ): PokemonLocalRepository = PokemonLocalRepositoryImpl(pokemonLocalDataSource)
 
     //REMOTE
     /*@Provides

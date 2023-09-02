@@ -1,5 +1,6 @@
 package es.rudo.pokedex.presentation.screens.main.items
 
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -23,7 +24,7 @@ class ItemsViewModel @Inject constructor(
     var itemsList = mutableStateListOf<Item>()
     val uiState = mutableStateOf<UiState>(UiState.Loading)
 
-    var page = mutableStateOf(1)
+    var page = mutableIntStateOf(1)
 
     private val limit: Int = 20
     private var totalCount = 0
@@ -33,17 +34,17 @@ class ItemsViewModel @Inject constructor(
     }
 
     fun nextPage() {
-        page.value += 1
+        page.intValue += 1
         getItems()
     }
 
     fun previousPage() {
-        page.value -= 1
+        page.intValue -= 1
         getItems()
     }
 
-    fun isPreviousButtonVisible(): Boolean = page.value > 1
-    fun isNextButtonVisible(): Boolean = page.value * limit + 1 < totalCount
+    fun isPreviousButtonVisible(): Boolean = page.intValue > 1
+    fun isNextButtonVisible(): Boolean = page.intValue * limit + 1 < totalCount
 
     private fun getItemsTotalCount() {
         viewModelScope.launch {
@@ -69,7 +70,7 @@ class ItemsViewModel @Inject constructor(
             try {
                 uiState.value = UiState.Loading
                 itemsList.clear()
-                val firstIndex = page.value * limit - limit + 1
+                val firstIndex = page.intValue * limit - limit + 1
                 for (i in firstIndex until firstIndex + limit) {
                     if (i <= totalCount) {
                         itemsList.add(
@@ -78,9 +79,7 @@ class ItemsViewModel @Inject constructor(
                                     uiState.value = UiState.Error(R.string.network_error)
                                     throw error
                                 },
-                                ifRight = { item ->
-                                    item
-                                }
+                                ifRight = { item -> item }
                             )
                         )
                     }

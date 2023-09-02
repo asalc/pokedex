@@ -5,9 +5,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import es.rudo.domain.repository.local.ItemLocalRepository
+import es.rudo.domain.repository.local.PokemonLocalRepository
 import es.rudo.domain.repository.remote.ItemRemoteRepository
+import es.rudo.domain.repository.remote.PokemonRemoteRepository
 import es.rudo.domain.use_cases.items.GetItemByIdUseCase
 import es.rudo.domain.use_cases.items.GetItemsUseCase
+import es.rudo.domain.use_cases.pokemon.GetPokemonByIdUseCase
+import es.rudo.domain.use_cases.pokemon.GetPokemonUseCase
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -58,7 +62,7 @@ class UseCaseModule {
     )
 
     //POKEMON
-    /*@Provides
+    @Provides
     fun providesGetPokemonUseCase(
         pokemonLocalRepository: PokemonLocalRepository,
         pokemonRemoteRepository: PokemonRemoteRepository,
@@ -72,20 +76,9 @@ class UseCaseModule {
     @Provides
     fun providesGetPokemonByIdUseCase(
         pokemonLocalRepository: PokemonLocalRepository,
-        pokemonRemoteRepository: PokemonRemoteRepository,
-        getPokemonSpeciesUseCase: GetPokemonSpeciesUseCase
+        pokemonRemoteRepository: PokemonRemoteRepository
     ): GetPokemonByIdUseCase = GetPokemonByIdUseCase(
         pokemonLocalRepository,
-        pokemonRemoteRepository,
-        getPokemonSpeciesUseCase
-    )
-
-    @Provides
-    fun providesGetPokemonSpeciesUseCase(
-        pokemonLocalRepository: PokemonLocalRepository,
-        pokemonRemoteRepository: PokemonRemoteRepository
-    ): GetPokemonSpeciesUseCase = GetPokemonSpeciesUseCase(
-        pokemonLocalRepository,
         pokemonRemoteRepository
-    )*/
+    )
 }

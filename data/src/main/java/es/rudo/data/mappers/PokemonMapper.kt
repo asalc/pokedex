@@ -26,7 +26,7 @@ fun PokemonRemoteDto.toDomain(): Pokemon =
                     name = it.name,
                     language = it.language
                 )
-            } as ArrayList
+            } as? ArrayList
         )
     )
 
@@ -51,14 +51,14 @@ fun Pokemon.toLocalDto(): PokemonLocalDto =
     )
 
 private fun mapNamesList(
-    names: ArrayList<NameRemoteDto>
-): ArrayList<Pair<String, String>> =
-    names.map {
+    names: ArrayList<NameRemoteDto>?
+): ArrayList<Pair<String, String>>? =
+    names?.map {
         Pair(
             it.language?.name ?: Language.ENGLISH.tag,
             it.name ?: "Unknown"
         )
-    } as ArrayList
+    } as? ArrayList
 
 private fun mapType(
     type: PokemonTypeRemoteDto
