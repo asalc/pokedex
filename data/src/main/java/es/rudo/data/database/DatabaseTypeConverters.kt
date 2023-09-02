@@ -51,7 +51,7 @@ class DatabaseTypeConverters {
 
     @TypeConverter
     fun fromStringToPairArrayList(
-        value: String
+        value: String?
     ): ArrayList<Pair<String, String>> {
         val stringArrayList: ArrayList<String> = fromStringToStringArrayList(value)
         return stringArrayList.map {
