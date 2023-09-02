@@ -26,7 +26,7 @@ class PokemonViewModel @Inject constructor(
     var page = mutableIntStateOf(1)
 
     private val limit: Int = 20
-    private var totalCount = 0
+    var totalCount = mutableIntStateOf(0)
 
     init {
         getPokemonTotalCount()
@@ -43,7 +43,7 @@ class PokemonViewModel @Inject constructor(
     }
 
     fun isPreviousButtonVisible(): Boolean = page.intValue > 1
-    fun isNextButtonVisible(): Boolean = page.intValue * limit + 1 < totalCount
+    fun isNextButtonVisible(): Boolean = page.intValue * limit + 1 < totalCount.intValue
 
     private fun getPokemonTotalCount() {
         viewModelScope.launch {
@@ -54,7 +54,7 @@ class PokemonViewModel @Inject constructor(
                         throw error
                     },
                     ifRight = { pokemonCount ->
-                        totalCount = pokemonCount
+                        totalCount.intValue = pokemonCount
                         getPokemon()
                     }
                 )
@@ -71,7 +71,7 @@ class PokemonViewModel @Inject constructor(
                 pokemonList.clear()
                 val firstIndex = page.intValue * limit - limit + 1
                 for (i in firstIndex until firstIndex + limit) {
-                    if (i <= totalCount) {
+                    if (i <= totalCount.intValue) {
                         pokemonList.add(
                             getPokemonByIdUseCase(i).fold(
                                 ifLeft = { error ->
