@@ -16,4 +16,8 @@ interface PokemonRemoteDataSource {
     suspend fun getPokemonById(
         id: String
     ): Response<PokemonRemoteDto>
+
+    suspend fun getPokemonSpecies(
+        id: String
+    ): Response<PokemonSpeciesRemoteDto>
 }

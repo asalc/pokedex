@@ -4,6 +4,7 @@ import arrow.core.Either
 import es.rudo.domain.helpers.Pager
 import es.rudo.domain.model.Generic
 import es.rudo.domain.model.Pokemon
+import es.rudo.domain.model.PokemonSpecies
 
 interface PokemonRemoteRepository {
 
@@ -15,4 +16,8 @@ interface PokemonRemoteRepository {
     suspend fun getPokemonById(
         id: String
     ): Either<Throwable, Pokemon>
+
+    suspend fun getPokemonSpecies(
+        id: String
+    ): Either<Throwable, PokemonSpecies>
 }

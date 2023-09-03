@@ -20,4 +20,8 @@ class PokemonRemoteDataSourceImpl(
     override suspend fun getPokemonById(
         id: String
     ): Response<PokemonRemoteDto> = api.getPokemonById(id)
+
+    override suspend fun getPokemonSpecies(
+        id: String
+    ): Response<PokemonSpeciesRemoteDto> = api.getPokemonSpecies(id)
 }

@@ -3,6 +3,7 @@ package es.rudo.data.repository.local.data_source
 import es.rudo.data.mappers.toDomain
 import es.rudo.data.mappers.toLocalDto
 import es.rudo.domain.model.Pokemon
+import es.rudo.domain.model.PokemonSpecies
 import es.rudo.domain.repository.local.PokemonLocalRepository
 
 class PokemonLocalRepositoryImpl(
@@ -43,6 +44,10 @@ class PokemonLocalRepositoryImpl(
         return pokemonLocalDataSource.getPokemonById(id)
             .map { it.toDomain() }
             .toTypedArray()
+    }
+
+    override suspend fun getPokemonSpecies(id: Int): Array<PokemonSpecies?> {
+        return pokemonLocalDataSource.getPokemonById(id).map { it.species }.toTypedArray()
     }
 
     override suspend fun getCount(): Int = pokemonLocalDataSource.getCount()

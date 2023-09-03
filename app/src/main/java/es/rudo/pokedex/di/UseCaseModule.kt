@@ -11,6 +11,7 @@ import es.rudo.domain.repository.remote.PokemonRemoteRepository
 import es.rudo.domain.use_cases.items.GetItemByIdUseCase
 import es.rudo.domain.use_cases.items.GetItemsUseCase
 import es.rudo.domain.use_cases.pokemon.GetPokemonByIdUseCase
+import es.rudo.domain.use_cases.pokemon.GetPokemonSpeciesUseCase
 import es.rudo.domain.use_cases.pokemon.GetPokemonUseCase
 
 @Module
@@ -76,8 +77,19 @@ class UseCaseModule {
     @Provides
     fun providesGetPokemonByIdUseCase(
         pokemonLocalRepository: PokemonLocalRepository,
-        pokemonRemoteRepository: PokemonRemoteRepository
+        pokemonRemoteRepository: PokemonRemoteRepository,
+        getPokemonSpeciesUseCase: GetPokemonSpeciesUseCase
     ): GetPokemonByIdUseCase = GetPokemonByIdUseCase(
+        pokemonLocalRepository,
+        pokemonRemoteRepository,
+        getPokemonSpeciesUseCase
+    )
+
+    @Provides
+    fun providesGetPokemonSpeciesUseCase(
+        pokemonLocalRepository: PokemonLocalRepository,
+        pokemonRemoteRepository: PokemonRemoteRepository
+    ): GetPokemonSpeciesUseCase = GetPokemonSpeciesUseCase(
         pokemonLocalRepository,
         pokemonRemoteRepository
     )

@@ -3,9 +3,11 @@ package es.rudo.data.mappers
 import es.rudo.data.model.local.PokemonLocalDto
 import es.rudo.data.model.remote.NameRemoteDto
 import es.rudo.data.model.remote.PokemonRemoteDto
+import es.rudo.data.model.remote.PokemonSpeciesRemoteDto
 import es.rudo.data.model.remote.PokemonTypeRemoteDto
 import es.rudo.domain.model.Language
 import es.rudo.domain.model.Pokemon
+import es.rudo.domain.model.PokemonSpecies
 import es.rudo.domain.model.PokemonType
 import kotlin.collections.ArrayList
 
@@ -20,14 +22,7 @@ fun PokemonRemoteDto.toDomain(): Pokemon =
             sprites?.backDefault.orEmpty()
         ),
         types = types?.map { mapType(it) } as ArrayList,
-        pokemonSpecies = mapNamesList(
-            speciesDetails?.genera?.map {
-                NameRemoteDto(
-                    name = it.name,
-                    language = it.language
-                )
-            } as? ArrayList
-        )
+        pokemonSpecies = speciesDetails?.toDomain()
     )
 
 fun PokemonLocalDto.toDomain(): Pokemon =
@@ -48,6 +43,20 @@ fun Pokemon.toLocalDto(): PokemonLocalDto =
         frontSpriteUrl = sprites?.first(),
         backSpriteUrl = sprites?.last(),
         species = pokemonSpecies
+    )
+
+fun PokemonSpeciesRemoteDto.toDomain(): PokemonSpecies =
+    PokemonSpecies(
+        id = id,
+        names = mapNamesList(names ?: ArrayList()),
+        genera = mapNamesList(
+            genera?.map {
+                NameRemoteDto(
+                    name = it.name,
+                    language = it.language
+                )
+            } as? ArrayList
+        )
     )
 
 private fun mapNamesList(

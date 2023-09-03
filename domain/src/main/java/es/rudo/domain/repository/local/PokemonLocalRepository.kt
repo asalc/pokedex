@@ -1,6 +1,7 @@
 package es.rudo.domain.repository.local
 
 import es.rudo.domain.model.Pokemon
+import es.rudo.domain.model.PokemonSpecies
 
 interface PokemonLocalRepository {
 
@@ -15,6 +16,8 @@ interface PokemonLocalRepository {
     suspend fun getAll(): Array<Pokemon>
 
     suspend fun getPokemonById(id: Int): Array<Pokemon>
+
+    suspend fun getPokemonSpecies(id: Int): Array<PokemonSpecies?>
 
     suspend fun getCount(): Int
 }

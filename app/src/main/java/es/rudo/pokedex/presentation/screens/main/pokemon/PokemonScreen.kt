@@ -43,6 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import es.rudo.domain.model.Language
 import es.rudo.domain.model.Pokemon
+import es.rudo.domain.model.PokemonSpecies
 import es.rudo.domain.model.PokemonType
 import es.rudo.pokedex.R
 import es.rudo.pokedex.UiState
@@ -169,7 +170,7 @@ fun PokemonCard(
         pokemon.names.findLanguageEntry(context)
 
     val pokemonSpecies: String =
-        pokemon.pokemonSpecies.findLanguageEntry(context)
+        pokemon.pokemonSpecies?.genera.findLanguageEntry(context)
 
     val pokemonTypes: ArrayList<Int>? =
         pokemon.types?.distinct()?.map { type ->
@@ -216,7 +217,10 @@ fun PokemonCard(
                     dimensionResource(R.dimen.padding_small)
                 )
             )
-            Text(text = pokemonSpecies)
+            Text(
+                text = pokemonSpecies,
+                textAlign = TextAlign.Center
+            )
             Spacer(
                 modifier = Modifier.height(
                     dimensionResource(R.dimen.padding_small)
@@ -304,8 +308,13 @@ fun PokemonScreenPreview() {
                 ),
                 sprites = arrayListOf("", ""),
                 types = arrayListOf(PokemonType.GRASS, PokemonType.POISON),
-                pokemonSpecies = arrayListOf(
-                    Pair(Language.SPANISH.tag, "Pokemon semilla")
+                pokemonSpecies = PokemonSpecies(
+                    names = arrayListOf(
+                        Pair(Language.SPANISH.tag, "Bulbasaur")
+                    ),
+                    genera = arrayListOf(
+                        Pair(Language.SPANISH.tag, "Pokemon semilla")
+                    )
                 )
             )
         )

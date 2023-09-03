@@ -3,6 +3,7 @@ package es.rudo.data.database
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import es.rudo.domain.model.PokemonSpecies
 
 class DatabaseTypeConverters {
 
@@ -58,4 +59,18 @@ class DatabaseTypeConverters {
             fromStringToStringPair(it)
         } as ArrayList
     }
+
+    @TypeConverter
+    fun fromPokemonSpeciesToString(
+        value: PokemonSpecies
+    ): String = Gson().toJson(value)
+
+    @TypeConverter
+    fun fromStringToPokemonSpecies(
+        value: String
+    ): PokemonSpecies =
+        Gson().fromJson(
+            value,
+            object : TypeToken<PokemonSpecies>() { }.type
+        )
 }

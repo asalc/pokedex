@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import es.rudo.data.database.DatabaseConfig
+import es.rudo.domain.model.PokemonSpecies
 
 @Entity(tableName = DatabaseConfig.TableNames.POKEMON)
 class PokemonLocalDto(
@@ -28,5 +29,5 @@ class PokemonLocalDto(
     val backSpriteUrl: String? = null,
 
     @ColumnInfo(name = "species")
-    val species: ArrayList<Pair<String, String>>? = null
+    val species: PokemonSpecies? = null
 )

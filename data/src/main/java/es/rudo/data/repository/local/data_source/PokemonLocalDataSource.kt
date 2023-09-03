@@ -3,6 +3,7 @@ package es.rudo.data.repository.local.data_source
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import es.rudo.data.database.DatabaseConfig
 import es.rudo.data.model.local.PokemonLocalDto
@@ -12,7 +13,7 @@ private const val POKEMON = DatabaseConfig.TableNames.POKEMON
 @Dao
 interface PokemonLocalDataSource {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(pokemon: PokemonLocalDto)
 
     @Insert

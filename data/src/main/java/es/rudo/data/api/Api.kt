@@ -44,4 +44,9 @@ interface Api {
     suspend fun getPokemonById(
         @Path("id") id: String
     ): Response<PokemonRemoteDto>
+
+    @GET("pokemon-species/{id}")
+    suspend fun getPokemonSpecies(
+        @Path("id") id: String
+    ): Response<PokemonSpeciesRemoteDto>
 }
