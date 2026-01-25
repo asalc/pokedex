@@ -12,8 +12,8 @@ class ItemLocalDto(
     @PrimaryKey(autoGenerate = false)
     val itemId: Int,
 
-    @ColumnInfo(name = "name")
-    val name: ArrayList<Pair<String, String>>,
+    @ColumnInfo(name = "names")
+    val names: ArrayList<Pair<String, String>>,
 
     @ColumnInfo(name = "cost")
     val cost: Int,

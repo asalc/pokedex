@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import es.shiro.domain.model.PokemonSpecies
 
-class DatabaseTypeConverters {
+object DatabaseTypeConverters {
 
     @TypeConverter
     fun fromStringArrayListToString(

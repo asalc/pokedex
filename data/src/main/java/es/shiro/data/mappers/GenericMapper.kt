@@ -5,6 +5,6 @@ import es.shiro.domain.model.Generic
 
 fun GenericRemoteDto.toDomain(): Generic =
     Generic(
-        name = name ?: "Unknown",
-        url = url ?: ""
+        name = name.orEmpty(),
+        url = url.orEmpty()
     )

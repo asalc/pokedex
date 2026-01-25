@@ -9,18 +9,6 @@ import retrofit2.http.Query
 
 interface Api {
 
-    //BERRIES
-    /*@GET("berry")
-    suspend fun getBerries(
-        @Query("offset") offset: Int = 0,
-        @Query("limit") limit: Int = 1
-    ): Response<Pager<GenericRemoteDto>>
-
-    @GET("berry/{id}")
-    suspend fun getBerryById(
-        @Path("id") id: String
-    ): Response<BerryRemoteDto>*/
-
     //ITEMS
     @GET("item")
     suspend fun getItems(

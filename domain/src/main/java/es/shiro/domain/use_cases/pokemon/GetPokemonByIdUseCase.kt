@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 class GetPokemonByIdUseCase(
     private val pokemonLocalRepository: PokemonLocalRepository,
     private val pokemonRemoteRepository: PokemonRemoteRepository,
-    private val getPokemonSpecies: GetPokemonSpeciesUseCase
+    private val getPokemonSpeciesUseCase: GetPokemonSpeciesUseCase
 ) {
     suspend operator fun invoke(id: Int): Either<Throwable, Pokemon> =
         withContext(Dispatchers.IO) {
@@ -19,7 +19,7 @@ class GetPokemonByIdUseCase(
                     pokemonRemoteRepository.getPokemonById(id.toString()).fold(
                         ifLeft = { error -> throw error },
                         ifRight = { pokemon ->
-                            getPokemonSpecies(id.toString()).fold(
+                            getPokemonSpeciesUseCase(id.toString()).fold(
                                 ifLeft = { error -> throw error },
                                 ifRight = { pokemonSpecies ->
                                     pokemon.apply {

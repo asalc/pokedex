@@ -9,17 +9,15 @@ import es.shiro.domain.model.Language
 fun ItemRemoteDto.toDomain(): Item =
     Item(
         id = id ?: 0,
-        name = mapNamesList(
-            names ?: ArrayList()
-        ),
+        names = mapNamesList(names ?: ArrayList()),
         cost = cost ?: 0,
-        sprite = sprites?.default ?: ""
+        sprite = sprites?.default.orEmpty()
     )
 
 fun ItemLocalDto.toDomain(): Item =
     Item(
         id = itemId,
-        name = name,
+        names = names,
         cost = cost,
         sprite = spriteUrl
     )
@@ -27,7 +25,7 @@ fun ItemLocalDto.toDomain(): Item =
 fun Item.toLocalDto(): ItemLocalDto =
     ItemLocalDto(
         itemId = id,
-        name = name.filter {
+        names = names.filter {
             it.first == Language.JAPANESE.tag ||
             it.first == Language.ENGLISH.tag  ||
             it.first == Language.SPANISH.tag
@@ -41,7 +39,7 @@ private fun mapNamesList(
 ): ArrayList<Pair<String, String>> =
     names.map {
         Pair(
-            it.language?.name ?: Language.ENGLISH.tag,
-            it.name ?: "Unknown"
+            it.language?.name.orEmpty(),
+            it.name.orEmpty()
         )
     } as ArrayList

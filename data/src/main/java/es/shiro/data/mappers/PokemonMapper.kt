@@ -64,16 +64,16 @@ private fun mapNamesList(
 ): ArrayList<Pair<String, String>>? =
     names?.map {
         Pair(
-            it.language?.name ?: Language.ENGLISH.tag,
-            it.name ?: "Unknown"
+            it.language?.name.orEmpty(),
+            it.name.orEmpty()
         )
     } as? ArrayList
 
 private fun mapType(
     type: PokemonTypeRemoteDto
 ): PokemonType? =
-    PokemonType.values().find { it.label == type.type?.name }
+    PokemonType.entries.find { it.label == type.type?.name }
 
 private fun mapType(
     type: String?
-): PokemonType? = PokemonType.values().find { it.label == type }
+): PokemonType? = PokemonType.entries.find { it.label == type }
