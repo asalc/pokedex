@@ -77,10 +77,6 @@ fun ItemsScreen(
                     viewModel.nextPage()
             },
             modifier = Modifier
-                .clip(CircleShape)
-                .border(width = 1.25.dp, color = ColorRed, shape = CircleShape)
-                .background(Color.White)
-                .padding(dimensionResource(R.dimen.padding_regular))
                 .constrainAs(buttons) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)

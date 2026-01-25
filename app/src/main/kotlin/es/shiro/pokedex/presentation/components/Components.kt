@@ -3,6 +3,8 @@ package es.shiro.pokedex.presentation.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,9 +15,11 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
+import es.shiro.pokedex.R
 import es.shiro.pokedex.presentation.theme.ColorRed
 import es.shiro.pokedex.presentation.theme.PokedexTheme
 
@@ -114,18 +119,20 @@ fun PageButtons(
 ) {
     ConstraintLayout(
         modifier = modifier
+            .clip(CircleShape)
+            .border(width = 1.25.dp, color = ColorRed, shape = CircleShape)
+            .background(Color.White)
     ) {
         val (previousButton, pageNumber, nextButton) = createRefs()
         if (isPreviousButtonVisible) {
-            OutlinedButton(
+            Button(
                 onClick = { onClickPrevious() },
-                shape = CircleShape,
-                elevation = ButtonDefaults.elevation(2.dp),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = ColorRed
+                shape = RoundedCornerShape(
+                    topEndPercent = 0,
+                    bottomEndPercent = 0
                 ),
                 contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = ColorRed),
                 modifier = Modifier
                     .size(36.dp)
                     .constrainAs(previousButton) {
@@ -137,7 +144,7 @@ fun PageButtons(
                 Image(
                     imageVector = Icons.Filled.KeyboardArrowLeft,
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(ColorRed),
+                    colorFilter = ColorFilter.tint(Color.White),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -155,15 +162,14 @@ fun PageButtons(
                 }
         )
         if (isNextButtonVisible) {
-            OutlinedButton(
+            Button(
                 onClick = { onClickNext() },
-                shape = CircleShape,
-                elevation = ButtonDefaults.elevation(2.dp),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = ColorRed
+                shape = RoundedCornerShape(
+                    topStartPercent = 0,
+                    bottomStartPercent = 0
                 ),
                 contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = ColorRed),
                 modifier = Modifier
                     .size(36.dp)
                     .constrainAs(nextButton) {
@@ -175,7 +181,7 @@ fun PageButtons(
                 Image(
                     imageVector = Icons.Filled.KeyboardArrowRight,
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(ColorRed),
+                    colorFilter = ColorFilter.tint(Color.White),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -209,7 +215,6 @@ fun ErrorPopUpPreview() {
     }
 }
 
-@SuppressLint("UnrememberedMutableState")
 @Preview(
     showBackground = true
 )
@@ -219,7 +224,7 @@ fun PagerButtonsPreview() {
         PageButtons(
             isPreviousButtonVisible = true,
             isNextButtonVisible = true,
-            page = mutableStateOf(100),
+            page = remember { mutableIntStateOf(100) },
             onClickPrevious = { },
             onClickNext = { }
         )
