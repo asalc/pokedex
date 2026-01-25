@@ -8,4 +8,5 @@
     <string name="dismiss_dialog">Cerrar</string>
     <string name="settings">Ajustes</string>
     <string name="unknown" translatable="false">\?\?\?</string>
+    <string name="base_url" translatable="false">https://pokeapi.co/api/v2/</string>
 </resources>
