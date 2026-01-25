@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paddings -->
+    <dimen name="padding_mini">4dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_mid_small">12dp</dimen>
+    <dimen name="padding_regular">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+
+    <!-- Custom paddings -->
+    <dimen name="padding_bottom_grid">100dp</dimen>
+
+    <!-- Custom sizes -->
+    <dimen name="pokedex_title_height">32dp</dimen>
+
+    <!-- Corner radius -->
+    <dimen name="corner_radius_small">8dp</dimen>
+
+    <!-- Elevations -->
+    <dimen name="elevation_small">8dp</dimen>
+</resources>

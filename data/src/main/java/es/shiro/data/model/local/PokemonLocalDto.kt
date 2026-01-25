@@ -1,0 +1,33 @@
+package es.shiro.data.model.local
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import es.shiro.data.database.DatabaseConfig
+import es.shiro.domain.model.PokemonSpecies
+
+@Entity(tableName = DatabaseConfig.TableNames.POKEMON)
+class PokemonLocalDto(
+
+    @ColumnInfo(name = "pokemon_id")
+    @PrimaryKey(autoGenerate = false)
+    val pokemonId: Int,
+
+    @ColumnInfo(name = "name")
+    val name: ArrayList<Pair<String, String>>? = null,
+
+    @ColumnInfo(name = "first_type")
+    val firstType: String? = null,
+
+    @ColumnInfo(name = "second_type")
+    val secondType: String? = null,
+
+    @ColumnInfo(name = "front_sprite_url")
+    val frontSpriteUrl: String? = null,
+
+    @ColumnInfo(name = "back_sprite_url")
+    val backSpriteUrl: String? = null,
+
+    @ColumnInfo(name = "species")
+    val species: PokemonSpecies? = null
+)
