@@ -5,7 +5,6 @@ import es.shiro.data.model.remote.NameRemoteDto
 import es.shiro.data.model.remote.PokemonRemoteDto
 import es.shiro.data.model.remote.PokemonSpeciesRemoteDto
 import es.shiro.data.model.remote.PokemonTypeRemoteDto
-import es.shiro.domain.model.Language
 import es.shiro.domain.model.Pokemon
 import es.shiro.domain.model.PokemonSpecies
 import es.shiro.domain.model.PokemonType
@@ -21,14 +20,14 @@ fun PokemonRemoteDto.toDomain(): Pokemon =
             sprites?.frontDefault.orEmpty(),
             sprites?.backDefault.orEmpty()
         ),
-        types = types?.map { mapType(it) } as ArrayList,
+        types = (types?.map { mapType(it) } ?: arrayListOf()) as ArrayList,
         pokemonSpecies = speciesDetails?.toDomain()
     )
 
 fun PokemonLocalDto.toDomain(): Pokemon =
     Pokemon(
         id = pokemonId,
-        names = name,
+        names = names,
         sprites = arrayListOf(frontSpriteUrl, backSpriteUrl),
         types = arrayListOf(firstType, secondType).map { mapType(it) } as ArrayList,
         pokemonSpecies = species
@@ -37,11 +36,11 @@ fun PokemonLocalDto.toDomain(): Pokemon =
 fun Pokemon.toLocalDto(): PokemonLocalDto =
     PokemonLocalDto(
         pokemonId = id,
-        name = names,
-        firstType = types?.first()?.label,
-        secondType = types?.last()?.label,
-        frontSpriteUrl = sprites?.first(),
-        backSpriteUrl = sprites?.last(),
+        names = names,
+        firstType = types?.firstOrNull()?.label,
+        secondType = types?.lastOrNull()?.label,
+        frontSpriteUrl = sprites?.firstOrNull().orEmpty(),
+        backSpriteUrl = sprites?.lastOrNull().orEmpty(),
         species = pokemonSpecies
     )
 
