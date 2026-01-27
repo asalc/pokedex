@@ -8,7 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import es.shiro.data.api.Api
+import es.shiro.pokedex.data.api.Api
 import es.shiro.pokedex.App
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

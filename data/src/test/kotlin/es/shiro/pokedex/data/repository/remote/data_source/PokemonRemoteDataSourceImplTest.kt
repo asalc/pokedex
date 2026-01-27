@@ -2,10 +2,12 @@ package es.shiro.pokedex.data.repository.remote.data_source
 
 import es.shiro.pokedex.data.api.Api
 import es.shiro.pokedex.data.helpers.extensions.EMPTY_STRING
-import es.shiro.pokedex.data.mocks.emptyItemRemoteDto
 import es.shiro.pokedex.data.mocks.emptyGenericPager
-import es.shiro.pokedex.data.mocks.itemRemoteDto
+import es.shiro.pokedex.data.mocks.emptyPokemonRemoteDto
+import es.shiro.pokedex.data.mocks.emptyPokemonSpeciesRemoteDto
 import es.shiro.pokedex.data.mocks.genericPager
+import es.shiro.pokedex.data.mocks.pokemonRemoteDto
+import es.shiro.pokedex.data.mocks.pokemonSpeciesRemoteDto
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -19,26 +21,26 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import retrofit2.Response
 
-class ItemRemoteDataSourceImplTest {
+class PokemonRemoteDataSourceImplTest {
 
     private val api: Api = mock()
 
-    private lateinit var remoteSource: ItemRemoteDataSource
+    private lateinit var remoteSource: PokemonRemoteDataSource
 
     @BeforeEach
     fun setUp() {
-        remoteSource = ItemRemoteDataSourceImpl(api)
+        remoteSource = PokemonRemoteDataSourceImpl(api)
     }
 
     @Test
-    fun `getItems - Empty success result`() {
+    fun `getPokemon - Empty success result`() {
         runBlocking {
             // Given
-            whenever(api.getItems(any(), any()))
+            whenever(api.getPokemon(any(), any()))
                 .thenReturn(Response.success(emptyGenericPager))
 
             // Whenever
-            val result = remoteSource.getItems()
+            val result = remoteSource.getPokemon()
 
             // Then
             assertTrue(result.isSuccessful)
@@ -54,14 +56,14 @@ class ItemRemoteDataSourceImplTest {
     }
 
     @Test
-    fun `getItems - Success result`() {
+    fun `getPokemon - Success result`() {
         runBlocking {
             // Given
-            whenever(api.getItems(any(), any()))
+            whenever(api.getPokemon(any(), any()))
                 .thenReturn(Response.success(genericPager))
 
             // Whenever
-            val result = remoteSource.getItems()
+            val result = remoteSource.getPokemon()
 
             // Then
             assertTrue(result.isSuccessful)
@@ -77,14 +79,14 @@ class ItemRemoteDataSourceImplTest {
     }
 
     @Test
-    fun `getItems - Error result`() {
+    fun `getPokemon - Error result`() {
         runBlocking {
             // Given
-            whenever(api.getItems(any(), any()))
+            whenever(api.getPokemon(any(), any()))
                 .thenReturn(Response.error(400, String.EMPTY_STRING.toResponseBody()))
 
             // Whenever
-            val result = remoteSource.getItems()
+            val result = remoteSource.getPokemon()
 
             // Then
             assertFalse(result.isSuccessful)
@@ -93,23 +95,23 @@ class ItemRemoteDataSourceImplTest {
     }
 
     @Test
-    fun `getItemById - Empty success result`() {
+    fun `getPokemonById - Empty success result`() {
         runBlocking {
             // Given
-            whenever(api.getItemById(any()))
-                .thenReturn(Response.success(emptyItemRemoteDto))
+            whenever(api.getPokemonById(any()))
+                .thenReturn(Response.success(emptyPokemonRemoteDto))
 
             // Whenever
-            val result = remoteSource.getItemById(String.EMPTY_STRING)
+            val result = remoteSource.getPokemonById(String.EMPTY_STRING)
 
             // Then
             assertTrue(result.isSuccessful)
             result.body()?.let {
                 assertNull(it.id)
                 assertTrue(it.name?.isEmpty() == true)
-                assertNull(it.cost)
-                assertTrue(it.names?.isEmpty() == true)
                 assertNull(it.sprites)
+                assertTrue(it.types?.isEmpty() == true)
+                assertEquals(emptyPokemonSpeciesRemoteDto.id, it.speciesDetails?.id)
                 return@let
             }
             return@runBlocking
@@ -117,23 +119,24 @@ class ItemRemoteDataSourceImplTest {
     }
 
     @Test
-    fun `getItemById - Success result`() {
+    fun `getPokemonById - Success result`() {
         runBlocking {
             // Given
-            whenever(api.getItemById(any()))
-                .thenReturn(Response.success(itemRemoteDto))
+            whenever(api.getPokemonById(any()))
+                .thenReturn(Response.success(pokemonRemoteDto))
 
             // Whenever
-            val result = remoteSource.getItemById(String.EMPTY_STRING)
+            val result = remoteSource.getPokemonById(String.EMPTY_STRING)
 
             // Then
             assertTrue(result.isSuccessful)
             result.body()?.let {
                 assertEquals(0, it.id)
-                assertFalse(it.name.isNullOrEmpty())
-                assertEquals(0, it.cost)
-                assertFalse(it.names.isNullOrEmpty())
-                assertEquals(itemRemoteDto.sprites?.default, it.sprites?.default)
+                assertEquals(pokemonRemoteDto.name, it.name)
+                assertEquals(pokemonRemoteDto.sprites?.frontDefault, it.sprites?.frontDefault)
+                assertEquals(pokemonRemoteDto.sprites?.backDefault, it.sprites?.backDefault)
+                assertFalse(it.types.isNullOrEmpty())
+                assertEquals(pokemonSpeciesRemoteDto.id, it.speciesDetails?.id)
                 return@let
             }
             return@runBlocking
@@ -141,14 +144,14 @@ class ItemRemoteDataSourceImplTest {
     }
 
     @Test
-    fun `getItemById - Error result`() {
+    fun `getPokemonById - Error result`() {
         runBlocking {
             // Given
-            whenever(api.getItemById(any()))
+            whenever(api.getPokemonById(any()))
                 .thenReturn(Response.error(400, String.EMPTY_STRING.toResponseBody()))
 
             // Whenever
-            val result = remoteSource.getItemById(String.EMPTY_STRING)
+            val result = remoteSource.getPokemonById(String.EMPTY_STRING)
 
             // Then
             assertFalse(result.isSuccessful)

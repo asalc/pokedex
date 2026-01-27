@@ -10,6 +10,3 @@ fun String.toFormattedPrice(): String {
     }
     return stringBuilder.toString().reversed()
 }
-
-val String.Companion.EMPTY_STRING: String
-    get() = ""

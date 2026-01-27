@@ -4,14 +4,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import es.shiro.data.api.Api
-import es.shiro.data.database.PokeDatabase
-import es.shiro.data.repository.local.data_source.ItemLocalDataSource
-import es.shiro.data.repository.local.data_source.PokemonLocalDataSource
-import es.shiro.data.repository.remote.data_source.ItemRemoteDataSource
-import es.shiro.data.repository.remote.data_source.PokemonRemoteDataSource
-import es.shiro.data.repository.remote.data_source.ItemRemoteDataSourceImpl
-import es.shiro.data.repository.remote.data_source.PokemonRemoteDataSourceImpl
+import es.shiro.pokedex.data.api.Api
+import es.shiro.pokedex.data.database.PokeDatabase
+import es.shiro.pokedex.data.repository.local.data_source.ItemLocalDataSource
+import es.shiro.pokedex.data.repository.local.data_source.PokemonLocalDataSource
+import es.shiro.pokedex.data.repository.remote.data_source.ItemRemoteDataSource
+import es.shiro.pokedex.data.repository.remote.data_source.PokemonRemoteDataSource
+import es.shiro.pokedex.data.repository.remote.data_source.ItemRemoteDataSourceImpl
+import es.shiro.pokedex.data.repository.remote.data_source.PokemonRemoteDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

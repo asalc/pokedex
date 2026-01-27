@@ -7,8 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import es.shiro.data.database.PokeDatabase
-import es.shiro.data.database.DatabaseConfig
+import es.shiro.pokedex.data.database.PokeDatabase
+import es.shiro.pokedex.data.database.DatabaseConfig
 import javax.inject.Singleton
 
 @Module

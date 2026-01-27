@@ -1,7 +1,5 @@
 package es.shiro.pokedex.data.mappers
 
-import es.shiro.data.mappers.toDomain
-import es.shiro.data.mappers.toLocalDto
 import es.shiro.pokedex.data.mocks.emptyPokemon
 import es.shiro.pokedex.data.mocks.emptyPokemonLocalDto
 import es.shiro.pokedex.data.mocks.emptyPokemonRemoteDto

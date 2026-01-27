@@ -16,13 +16,15 @@ android {
         targetCompatibility JavaVersion.VERSION_21
     }
 
-    namespace 'es.shiro.data'
     lint {
         targetSdk 36
     }
-    testOptions {
-        targetSdk 36
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
     }
+
+    namespace 'es.shiro.pokedex.data'
 }
 
 dependencies {

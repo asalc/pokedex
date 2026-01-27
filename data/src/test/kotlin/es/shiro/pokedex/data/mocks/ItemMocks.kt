@@ -1,10 +1,10 @@
 package es.shiro.pokedex.data.mocks
 
-import es.shiro.data.helpers.extensions.EMPTY_STRING
-import es.shiro.data.model.local.ItemLocalDto
-import es.shiro.data.model.remote.ItemRemoteDto
-import es.shiro.data.model.remote.ItemSpriteRemoteDto
-import es.shiro.data.model.remote.NameRemoteDto
+import es.shiro.pokedex.data.helpers.extensions.EMPTY_STRING
+import es.shiro.pokedex.data.model.local.ItemLocalDto
+import es.shiro.pokedex.data.model.remote.ItemRemoteDto
+import es.shiro.pokedex.data.model.remote.ItemSpriteRemoteDto
+import es.shiro.pokedex.data.model.remote.NameRemoteDto
 import es.shiro.domain.model.Item
 import es.shiro.domain.model.Language
 

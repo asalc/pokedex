@@ -52,6 +52,10 @@ android {
         }
     }
 
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+    }
+
     namespace 'es.shiro.pokedex'
 }
 
