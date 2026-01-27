@@ -1,28 +1,25 @@
 package es.shiro.pokedex.data.mocks
 
-import es.shiro.pokedex.data.helpers.extensions.EMPTY_STRING
+import es.shiro.pokedex.common.extensions.EMPTY_STRING
 import es.shiro.pokedex.data.model.local.PokemonLocalDto
 import es.shiro.pokedex.data.model.remote.NameRemoteDto
-import es.shiro.pokedex.data.model.remote.PokemonKindRemoteDto
 import es.shiro.pokedex.data.model.remote.PokemonRemoteDto
 import es.shiro.pokedex.data.model.remote.PokemonSpeciesRemoteDto
 import es.shiro.pokedex.data.model.remote.PokemonSpriteRemoteDto
 import es.shiro.pokedex.data.model.remote.PokemonTypeRemoteDto
-import es.shiro.domain.model.Language
-import es.shiro.domain.model.Pokemon
-import es.shiro.domain.model.PokemonSpecies
-import es.shiro.domain.model.PokemonType
+import es.shiro.pokedex.domain.model.Language
+import es.shiro.pokedex.domain.model.Pokemon
+import es.shiro.pokedex.domain.model.PokemonSpecies
+import es.shiro.pokedex.domain.model.PokemonType
 
 internal val nullPokemonSpeciesRemoteDto = PokemonSpeciesRemoteDto()
 internal val emptyPokemonSpeciesRemoteDto = PokemonSpeciesRemoteDto(
     id = 0,
-    genera = arrayListOf(),
-    names = arrayListOf()
+    names = emptyList()
 )
 internal val pokemonSpeciesRemoteDto = PokemonSpeciesRemoteDto(
     id = 0,
-    genera = arrayListOf(PokemonKindRemoteDto()),
-    names = arrayListOf(NameRemoteDto())
+    names = listOf(NameRemoteDto())
 )
 
 internal val nullPokemonRemoteDto = PokemonRemoteDto(
@@ -32,7 +29,7 @@ internal val emptyPokemonRemoteDto = PokemonRemoteDto(
     id = null,
     name = String.EMPTY_STRING,
     sprites = null,
-    types = arrayListOf(),
+    types = emptyList(),
     speciesDetails = emptyPokemonSpeciesRemoteDto
 )
 internal val pokemonRemoteDto = PokemonRemoteDto(
@@ -42,22 +39,22 @@ internal val pokemonRemoteDto = PokemonRemoteDto(
         backDefault = "backDefault",
         frontDefault = "frontDefault"
     ),
-    types = arrayListOf(PokemonTypeRemoteDto()),
+    types = listOf(PokemonTypeRemoteDto()),
     speciesDetails = pokemonSpeciesRemoteDto
 )
 
 internal val emptyPokemonLocalDto = PokemonLocalDto(
     pokemonId = 0,
-    names = arrayListOf(),
+    names = emptyList(),
     firstType = String.EMPTY_STRING,
     secondType = String.EMPTY_STRING,
     frontSpriteUrl = String.EMPTY_STRING,
     backSpriteUrl = String.EMPTY_STRING,
-    species = null
+    species = PokemonSpecies()
 )
 internal val pokemonLocalDto = PokemonLocalDto(
     pokemonId = 0,
-    names = arrayListOf(Pair(Language.JAPANESE.tag, String.EMPTY_STRING)),
+    names = listOf(Pair(Language.JAPANESE.tag, String.EMPTY_STRING)),
     firstType = "firstType",
     secondType = "secondType",
     frontSpriteUrl = "frontSpriteUrl",
@@ -67,19 +64,18 @@ internal val pokemonLocalDto = PokemonLocalDto(
 
 internal val emptyPokemon = Pokemon(
     id = 0,
-    names = arrayListOf(),
-    sprites = arrayListOf(),
-    types = arrayListOf(),
-    pokemonSpecies = null
+    names = emptyList(),
+    sprites = emptyList(),
+    types = emptyList(),
+    pokemonSpecies = PokemonSpecies()
 )
 internal val pokemon = Pokemon(
     id = 0,
-    names = arrayListOf(Pair(Language.JAPANESE.tag, String.EMPTY_STRING)),
-    sprites = arrayListOf("sprite"),
-    types = arrayListOf(PokemonType.FAIRY),
+    names = listOf(Pair(Language.JAPANESE.tag, String.EMPTY_STRING)),
+    sprites = listOf("sprite"),
+    types = listOf(PokemonType.FAIRY),
     pokemonSpecies = PokemonSpecies(
         id = 0,
-        names = arrayListOf(Pair(Language.JAPANESE.tag, String.EMPTY_STRING)),
-        genera = arrayListOf(Pair(Language.JAPANESE.tag, String.EMPTY_STRING))
+        names = listOf(Pair(Language.JAPANESE.tag, String.EMPTY_STRING))
     )
 )

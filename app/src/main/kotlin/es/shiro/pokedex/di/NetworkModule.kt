@@ -8,7 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import es.shiro.pokedex.data.api.Api
+import es.shiro.pokedex.data.api.PokedexApi
 import es.shiro.pokedex.App
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -52,5 +52,5 @@ class NetworkModule {
     @Singleton
     fun providesApi(
         retrofit: Retrofit
-    ): Api = retrofit.create(Api::class.java)
+    ): PokedexApi = retrofit.create(PokedexApi::class.java)
 }

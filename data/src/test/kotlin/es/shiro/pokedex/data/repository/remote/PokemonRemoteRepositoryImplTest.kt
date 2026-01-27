@@ -1,20 +1,15 @@
 package es.shiro.pokedex.data.repository.remote
 
-import es.shiro.domain.repository.remote.ItemRemoteRepository
-import es.shiro.domain.repository.remote.PokemonRemoteRepository
-import es.shiro.pokedex.data.helpers.extensions.EMPTY_STRING
+import es.shiro.pokedex.common.extensions.EMPTY_STRING
 import es.shiro.pokedex.data.mocks.emptyGenericPager
-import es.shiro.pokedex.data.mocks.emptyItemRemoteDto
 import es.shiro.pokedex.data.mocks.emptyPokemonRemoteDto
 import es.shiro.pokedex.data.mocks.emptyPokemonSpeciesRemoteDto
 import es.shiro.pokedex.data.mocks.genericPager
-import es.shiro.pokedex.data.mocks.itemRemoteDto
 import es.shiro.pokedex.data.mocks.pokemonRemoteDto
 import es.shiro.pokedex.data.mocks.pokemonSpeciesRemoteDto
-import es.shiro.pokedex.data.repository.remote.data_source.ItemRemoteDataSource
-import es.shiro.pokedex.data.repository.remote.data_source.ItemRemoteDataSourceImpl
 import es.shiro.pokedex.data.repository.remote.data_source.PokemonRemoteDataSource
 import es.shiro.pokedex.data.repository.remote.data_source.PokemonRemoteDataSourceImpl
+import es.shiro.pokedex.domain.repository.remote.PokemonRemoteRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -111,11 +106,11 @@ class PokemonRemoteRepositoryImplTest {
         // Then
         result.getOrNull()?.let {
             assertEquals(0, it.id)
-            assertTrue(it.names?.isEmpty() == true)
-            assertTrue(it.sprites?.firstOrNull()?.isEmpty() == true)
-            assertTrue(it.sprites?.lastOrNull()?.isEmpty() == true)
-            assertTrue(it.types?.isEmpty() == true)
-            assertTrue(it.pokemonSpecies != null)
+            assertTrue(it.names.isEmpty())
+            assertTrue(it.sprites.firstOrNull()?.isEmpty() == true)
+            assertTrue(it.sprites.lastOrNull()?.isEmpty() == true)
+            assertTrue(it.types.isEmpty())
+            assertEquals(0, it.pokemonSpecies.id)
             return@let
         }
         return@runBlocking
@@ -133,11 +128,11 @@ class PokemonRemoteRepositoryImplTest {
         // Then
         result.getOrNull()?.let {
             assertEquals(0, it.id)
-            assertFalse(it.names?.isEmpty() == true)
-            assertFalse(it.sprites?.firstOrNull()?.isEmpty() == true)
-            assertFalse(it.sprites?.lastOrNull()?.isEmpty() == true)
-            assertFalse(it.types?.isEmpty() == true)
-            assertTrue(it.pokemonSpecies != null)
+            assertFalse(it.names.isEmpty())
+            assertFalse(it.sprites.firstOrNull()?.isEmpty() == true)
+            assertFalse(it.sprites.lastOrNull()?.isEmpty() == true)
+            assertFalse(it.types.isEmpty())
+            assertEquals(0, it.pokemonSpecies.id)
             return@let
         }
         return@runBlocking
@@ -171,8 +166,7 @@ class PokemonRemoteRepositoryImplTest {
         // Then
         result.getOrNull()?.let {
             assertEquals(0, it.id)
-            assertTrue(it.genera?.isEmpty() == true)
-            assertTrue(it.names?.isEmpty() == true)
+            assertTrue(it.names.isEmpty())
             return@let
         }
         return@runBlocking
@@ -190,8 +184,7 @@ class PokemonRemoteRepositoryImplTest {
         // Then
         result.getOrNull()?.let {
             assertEquals(0, it.id)
-            assertFalse(it.genera?.isEmpty() == true)
-            assertFalse(it.names?.isEmpty() == true)
+            assertFalse(it.names.isEmpty())
             return@let
         }
         return@runBlocking

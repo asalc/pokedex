@@ -1,13 +1,13 @@
 package es.shiro.pokedex.data.repository.remote
 
-import es.shiro.domain.repository.remote.ItemRemoteRepository
-import es.shiro.pokedex.data.helpers.extensions.EMPTY_STRING
+import es.shiro.pokedex.common.extensions.EMPTY_STRING
 import es.shiro.pokedex.data.mocks.emptyGenericPager
 import es.shiro.pokedex.data.mocks.emptyItemRemoteDto
 import es.shiro.pokedex.data.mocks.genericPager
 import es.shiro.pokedex.data.mocks.itemRemoteDto
 import es.shiro.pokedex.data.repository.remote.data_source.ItemRemoteDataSource
 import es.shiro.pokedex.data.repository.remote.data_source.ItemRemoteDataSourceImpl
+import es.shiro.pokedex.domain.repository.remote.ItemRemoteRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.Assertions.assertEquals

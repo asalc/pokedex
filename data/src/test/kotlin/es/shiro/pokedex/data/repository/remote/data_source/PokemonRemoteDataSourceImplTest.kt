@@ -1,7 +1,7 @@
 package es.shiro.pokedex.data.repository.remote.data_source
 
-import es.shiro.pokedex.data.api.Api
-import es.shiro.pokedex.data.helpers.extensions.EMPTY_STRING
+import es.shiro.pokedex.common.extensions.EMPTY_STRING
+import es.shiro.pokedex.data.api.PokedexApi
 import es.shiro.pokedex.data.mocks.emptyGenericPager
 import es.shiro.pokedex.data.mocks.emptyPokemonRemoteDto
 import es.shiro.pokedex.data.mocks.emptyPokemonSpeciesRemoteDto
@@ -23,7 +23,7 @@ import retrofit2.Response
 
 class PokemonRemoteDataSourceImplTest {
 
-    private val api: Api = mock()
+    private val api: PokedexApi = mock()
 
     private lateinit var remoteSource: PokemonRemoteDataSource
 

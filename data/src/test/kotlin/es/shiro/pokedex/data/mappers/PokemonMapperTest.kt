@@ -21,10 +21,10 @@ class PokemonMapperTest {
 
         // Then
         assertEquals(0, result.id)
-        assertTrue(result.names?.isEmpty() == true)
-        assertTrue(result.sprites?.all { it?.isEmpty() == true } == true)
-        assertTrue(result.types?.isEmpty() == true)
-        assertTrue(result.pokemonSpecies?.id == null)
+        assertTrue(result.names.isEmpty())
+        assertTrue(result.sprites.all { it.isEmpty() })
+        assertTrue(result.types.isEmpty())
+        assertEquals(0, result.pokemonSpecies.id)
     }
 
     @Test
@@ -34,10 +34,10 @@ class PokemonMapperTest {
 
         // Then
         assertEquals(0, result.id)
-        assertTrue(result.names?.isEmpty() == true)
-        assertTrue(result.sprites?.all { it?.isEmpty() == true } == true)
-        assertTrue(result.types?.isEmpty() == true)
-        assertTrue(result.pokemonSpecies?.id == 0)
+        assertTrue(result.names.isEmpty())
+        assertTrue(result.sprites.all { it.isEmpty() })
+        assertTrue(result.types.isEmpty())
+        assertEquals(0, result.pokemonSpecies.id)
     }
 
     @Test
@@ -47,10 +47,10 @@ class PokemonMapperTest {
 
         // Then
         assertEquals(0, result.id)
-        assertFalse(result.names.isNullOrEmpty())
-        assertTrue(result.sprites?.all { !it.isNullOrEmpty() } == true)
-        assertFalse(result.types.isNullOrEmpty())
-        assertTrue(result.pokemonSpecies?.id == 0)
+        assertFalse(result.names.isEmpty())
+        assertTrue(result.sprites.all { it.isNotEmpty() })
+        assertFalse(result.types.isEmpty())
+        assertEquals(0, result.pokemonSpecies.id)
     }
 
     @Test
@@ -60,10 +60,11 @@ class PokemonMapperTest {
 
         // Then
         assertEquals(0, result.id)
-        assertTrue(result.names?.isEmpty() == true)
-        assertTrue(result.sprites?.all { it?.isEmpty() == true } == true)
-        assertFalse(result.types.isNullOrEmpty())
-        assertTrue(result.pokemonSpecies?.id == null)
+        assertTrue(result.names.isEmpty())
+        assertTrue(result.sprites.all { it.isEmpty() })
+        assertFalse(result.types.isEmpty())
+        assertEquals(0, result.pokemonSpecies.id)
+        assertTrue(result.pokemonSpecies.names.isEmpty())
     }
 
     @Test
@@ -73,10 +74,10 @@ class PokemonMapperTest {
 
         // Then
         assertEquals(0, result.id)
-        assertFalse(result.names.isNullOrEmpty())
-        assertTrue(result.sprites?.all { !it.isNullOrEmpty() } == true)
-        assertFalse(result.types.isNullOrEmpty())
-        assertTrue(result.pokemonSpecies?.id == 0)
+        assertFalse(result.names.isEmpty())
+        assertTrue(result.sprites.all { it.isNotEmpty() })
+        assertFalse(result.types.isEmpty())
+        assertEquals(0, result.pokemonSpecies.id)
     }
 
     @Test
@@ -86,12 +87,12 @@ class PokemonMapperTest {
 
         // Then
         assertEquals(0, result.pokemonId)
-        assertTrue(result.names?.isEmpty() == true)
-        assertTrue(result.firstType == null)
-        assertTrue(result.secondType == null)
-        assertTrue(result.frontSpriteUrl?.isEmpty() == true)
-        assertTrue(result.backSpriteUrl?.isEmpty() == true)
-        assertTrue(result.species?.id == null)
+        assertTrue(result.names.isEmpty())
+        assertTrue(result.firstType.isEmpty())
+        assertTrue(result.secondType.isEmpty())
+        assertTrue(result.frontSpriteUrl.isEmpty())
+        assertTrue(result.backSpriteUrl.isEmpty())
+        assertEquals(0, result.species.id)
     }
 
     @Test
@@ -101,11 +102,11 @@ class PokemonMapperTest {
 
         // Then
         assertEquals(0, result.pokemonId)
-        assertFalse(result.names.isNullOrEmpty())
-        assertFalse(result.firstType?.isEmpty() == true)
-        assertFalse(result.secondType?.isEmpty() == true)
-        assertFalse(result.frontSpriteUrl?.isEmpty() == true)
-        assertFalse(result.backSpriteUrl?.isEmpty() == true)
-        assertTrue(result.species?.id == 0)
+        assertFalse(result.names.isEmpty())
+        assertFalse(result.firstType.isEmpty())
+        assertFalse(result.secondType.isEmpty())
+        assertFalse(result.frontSpriteUrl.isEmpty())
+        assertFalse(result.backSpriteUrl.isEmpty())
+        assertEquals(0, result.species.id)
     }
 }

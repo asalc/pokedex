@@ -1,6 +1,6 @@
 package es.shiro.pokedex.data.mocks
 
-import es.shiro.pokedex.data.helpers.extensions.EMPTY_STRING
+import es.shiro.pokedex.common.extensions.EMPTY_STRING
 import es.shiro.pokedex.data.model.remote.GenericRemoteDto
 
 internal val nullGenericRemoteDto = GenericRemoteDto()

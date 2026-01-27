@@ -1,11 +1,11 @@
 package es.shiro.pokedex.data.repository.remote.data_source
 
-import es.shiro.pokedex.data.api.Api
-import es.shiro.pokedex.data.helpers.extensions.EMPTY_STRING
-import es.shiro.pokedex.data.mocks.emptyItemRemoteDto
+import es.shiro.pokedex.common.extensions.EMPTY_STRING
+import es.shiro.pokedex.data.api.PokedexApi
 import es.shiro.pokedex.data.mocks.emptyGenericPager
-import es.shiro.pokedex.data.mocks.itemRemoteDto
+import es.shiro.pokedex.data.mocks.emptyItemRemoteDto
 import es.shiro.pokedex.data.mocks.genericPager
+import es.shiro.pokedex.data.mocks.itemRemoteDto
 import kotlinx.coroutines.runBlocking
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -21,7 +21,7 @@ import retrofit2.Response
 
 class ItemRemoteDataSourceImplTest {
 
-    private val api: Api = mock()
+    private val api: PokedexApi = mock()
 
     private lateinit var remoteSource: ItemRemoteDataSource
 

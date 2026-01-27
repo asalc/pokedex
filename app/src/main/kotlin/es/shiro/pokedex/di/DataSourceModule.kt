@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import es.shiro.pokedex.data.api.Api
+import es.shiro.pokedex.data.api.PokedexApi
 import es.shiro.pokedex.data.database.PokeDatabase
 import es.shiro.pokedex.data.repository.local.data_source.ItemLocalDataSource
 import es.shiro.pokedex.data.repository.local.data_source.PokemonLocalDataSource
@@ -41,11 +41,11 @@ class DataSourceModule {
 
     @Provides
     fun providesItemRemoteDataSource(
-        api: Api
-    ): ItemRemoteDataSource = ItemRemoteDataSourceImpl(api)
+        pokedexApi: PokedexApi
+    ): ItemRemoteDataSource = ItemRemoteDataSourceImpl(pokedexApi)
 
     @Provides
     fun providesPokemonRemoteDataSource(
-        api: Api
-    ): PokemonRemoteDataSource = PokemonRemoteDataSourceImpl(api)
+        pokedexApi: PokedexApi
+    ): PokemonRemoteDataSource = PokemonRemoteDataSourceImpl(pokedexApi)
 }
