@@ -8,22 +8,19 @@ import es.shiro.pokedex.domain.model.PokemonSpecies
 import es.shiro.pokedex.domain.repository.local.PokemonLocalRepository
 
 class PokemonLocalRepositoryImpl(
-    private val pokemonLocalDataSource: PokemonLocalDataSource
+    private val localDataSource: PokemonLocalDataSource
 ): PokemonLocalRepository {
 
-    override suspend fun insert(pokemon: Pokemon) {
-        pokemonLocalDataSource.insert(
+    override suspend fun insert(pokemon: Pokemon) =
+        localDataSource.insert(
             pokemon.toLocalDto()
         )
-    }
 
-    override suspend fun getPokemonById(id: Int): List<Pokemon> {
-        return pokemonLocalDataSource.getPokemonById(id).map { it.toDomain() }
-    }
+    override suspend fun getPokemonById(id: Int): Pokemon? =
+        localDataSource.getPokemonById(id)?.toDomain()
 
-    override suspend fun getPokemonSpecies(id: Int): List<PokemonSpecies> {
-        return pokemonLocalDataSource.getPokemonById(id).map { it.species }
-    }
+    override suspend fun getPokemonSpecies(id: Int): PokemonSpecies? =
+        localDataSource.getPokemonById(id)?.species
 
-    override suspend fun getCount(): Int = pokemonLocalDataSource.getCount()
+    override suspend fun getCount(): Int = localDataSource.getCount()
 }

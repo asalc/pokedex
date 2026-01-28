@@ -4,93 +4,75 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import es.shiro.domain.repository.local.ItemLocalRepository
-import es.shiro.domain.repository.local.PokemonLocalRepository
-import es.shiro.domain.repository.remote.ItemRemoteRepository
-import es.shiro.domain.repository.remote.PokemonRemoteRepository
-import es.shiro.domain.use_cases.items.GetItemByIdUseCase
-import es.shiro.domain.use_cases.items.GetItemsUseCase
-import es.shiro.domain.use_cases.pokemon.GetPokemonByIdUseCase
-import es.shiro.domain.use_cases.pokemon.GetPokemonSpeciesUseCase
-import es.shiro.domain.use_cases.pokemon.GetPokemonUseCase
+import es.shiro.pokedex.domain.repository.local.ItemLocalRepository
+import es.shiro.pokedex.domain.repository.local.PokemonLocalRepository
+import es.shiro.pokedex.domain.repository.remote.ItemRemoteRepository
+import es.shiro.pokedex.domain.repository.remote.PokemonRemoteRepository
+import es.shiro.pokedex.domain.use_cases.items.GetItemByIdUseCase
+import es.shiro.pokedex.domain.use_cases.items.GetItemByIdUseCaseImpl
+import es.shiro.pokedex.domain.use_cases.items.GetItemsUseCase
+import es.shiro.pokedex.domain.use_cases.items.GetItemsUseCaseImpl
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonByIdUseCase
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonByIdUseCaseImpl
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonSpeciesUseCase
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonSpeciesUseCaseImpl
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonUseCase
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonUseCaseImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
 class UseCaseModule {
 
-    //BERRIES
-    /*@Provides
-    fun providesGetBerriesUseCase(
-        berryLocalRepository: BerryLocalRepository,
-        berryRemoteRepository: BerryRemoteRepository,
-        getBerryByIdUseCase: GetBerryByIdUseCase
-    ): GetBerriesUseCase = GetBerriesUseCase(
-        berryLocalRepository,
-        berryRemoteRepository,
-        getBerryByIdUseCase
-    )
-
-    @Provides
-    fun providesGetBerryByIdUseCase(
-        berryLocalRepository: BerryLocalRepository,
-        berryRemoteRepository: BerryRemoteRepository,
-        getItemByIdUseCase: GetItemByIdUseCase
-    ): GetBerryByIdUseCase = GetBerryByIdUseCase(
-        berryLocalRepository,
-        berryRemoteRepository,
-        getItemByIdUseCase
-    )*/
-
     //ITEMS
     @Provides
     fun providesGetItemsUseCase(
-        itemLocalRepository: ItemLocalRepository,
-        itemRemoteRepository: ItemRemoteRepository,
-        getItemByIdUseCase: GetItemByIdUseCase
-    ): GetItemsUseCase = GetItemsUseCase(
-        itemLocalRepository,
-        itemRemoteRepository,
+        localRepository: ItemLocalRepository,
+        remoteRepository: ItemRemoteRepository,
+        getItemByIdUseCase: GetItemByIdUseCaseImpl
+    ): GetItemsUseCase = GetItemsUseCaseImpl(
+        localRepository,
+        remoteRepository,
         getItemByIdUseCase
     )
 
     @Provides
     fun providesGetItemByIdUseCase(
-        itemLocalRepository: ItemLocalRepository,
-        itemRemoteRepository: ItemRemoteRepository
-    ): GetItemByIdUseCase = GetItemByIdUseCase(
-        itemLocalRepository,
-        itemRemoteRepository
+        localRepository: ItemLocalRepository,
+        remoteRepository: ItemRemoteRepository
+    ): GetItemByIdUseCase = GetItemByIdUseCaseImpl(
+        localRepository,
+        remoteRepository
     )
 
     //POKEMON
     @Provides
     fun providesGetPokemonUseCase(
-        pokemonLocalRepository: PokemonLocalRepository,
-        pokemonRemoteRepository: PokemonRemoteRepository,
-        getPokemonByIdUseCase: GetPokemonByIdUseCase
-    ): GetPokemonUseCase = GetPokemonUseCase(
-        pokemonLocalRepository,
-        pokemonRemoteRepository,
+        localRepository: PokemonLocalRepository,
+        remoteRepository: PokemonRemoteRepository,
+        getPokemonByIdUseCase: GetPokemonByIdUseCaseImpl
+    ): GetPokemonUseCase = GetPokemonUseCaseImpl(
+        localRepository,
+        remoteRepository,
         getPokemonByIdUseCase
     )
 
     @Provides
     fun providesGetPokemonByIdUseCase(
-        pokemonLocalRepository: PokemonLocalRepository,
-        pokemonRemoteRepository: PokemonRemoteRepository,
-        getPokemonSpeciesUseCase: GetPokemonSpeciesUseCase
-    ): GetPokemonByIdUseCase = GetPokemonByIdUseCase(
-        pokemonLocalRepository,
-        pokemonRemoteRepository,
+        localRepository: PokemonLocalRepository,
+        remoteRepository: PokemonRemoteRepository,
+        getPokemonSpeciesUseCase: GetPokemonSpeciesUseCaseImpl
+    ): GetPokemonByIdUseCase = GetPokemonByIdUseCaseImpl(
+        localRepository,
+        remoteRepository,
         getPokemonSpeciesUseCase
     )
 
     @Provides
     fun providesGetPokemonSpeciesUseCase(
-        pokemonLocalRepository: PokemonLocalRepository,
-        pokemonRemoteRepository: PokemonRemoteRepository
-    ): GetPokemonSpeciesUseCase = GetPokemonSpeciesUseCase(
-        pokemonLocalRepository,
-        pokemonRemoteRepository
+        localRepository: PokemonLocalRepository,
+        remoteRepository: PokemonRemoteRepository
+    ): GetPokemonSpeciesUseCase = GetPokemonSpeciesUseCaseImpl(
+        localRepository,
+        remoteRepository
     )
 }

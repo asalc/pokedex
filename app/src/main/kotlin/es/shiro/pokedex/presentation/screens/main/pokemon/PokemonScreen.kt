@@ -5,11 +5,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,19 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -41,18 +32,18 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
-import es.shiro.domain.model.Language
-import es.shiro.domain.model.Pokemon
-import es.shiro.domain.model.PokemonSpecies
-import es.shiro.domain.model.PokemonType
 import es.shiro.pokedex.R
 import es.shiro.pokedex.UiState
+import es.shiro.pokedex.common.extensions.EMPTY_STRING
+import es.shiro.pokedex.domain.model.Language
+import es.shiro.pokedex.domain.model.Pokemon
+import es.shiro.pokedex.domain.model.PokemonSpecies
+import es.shiro.pokedex.domain.model.PokemonType
 import es.shiro.pokedex.helpers.extensions.findLanguageEntry
 import es.shiro.pokedex.presentation.components.ErrorPopUp
 import es.shiro.pokedex.presentation.components.PageButtons
 import es.shiro.pokedex.presentation.components.PokedexGrid
 import es.shiro.pokedex.presentation.components.ProgressLoader
-import es.shiro.pokedex.presentation.theme.ColorRed
 
 private const val POKEMON_TYPE_PREFIX = "ic_type_"
 
@@ -153,12 +144,12 @@ fun PokemonCard(
         pokemon.names.findLanguageEntry(context)
 
     val pokemonSpecies: String =
-        pokemon.pokemonSpecies?.genera.findLanguageEntry(context)
+        pokemon.pokemonSpecies.genera.findLanguageEntry(context)
 
-    val pokemonTypes: ArrayList<Int>? =
-        pokemon.types?.distinct()?.map { type ->
+    val pokemonTypes: List<Int> =
+        pokemon.types.distinct().map { type ->
             PokemonType.entries.find {
-                it.label == type?.label
+                it.label == type.label
             }?.let {
                 context.resources.getIdentifier(
                     POKEMON_TYPE_PREFIX + it.label,
@@ -166,7 +157,7 @@ fun PokemonCard(
                     context.packageName
                 )
             } ?: 0
-        }?.filter { it != 0 } as? ArrayList<Int>
+        }.filter { it != 0 }
 
     Card(
         shape = RoundedCornerShape(
@@ -219,11 +210,11 @@ fun PokemonCard(
 
 @Composable
 fun PokemonSprites(
-    pokemonSprites: ArrayList<String?>?,
+    pokemonSprites: List<String>,
     modifier: Modifier
 ) {
     AsyncImage(
-        model = pokemonSprites?.first(),
+        model = pokemonSprites.first(),
         contentDescription = null,
         modifier = modifier
             .fillMaxWidth()
@@ -247,27 +238,25 @@ fun PokemonNameTag(
 
 @Composable
 fun PokemonTypesRow(
-    pokemonTypes: ArrayList<Int>?,
+    pokemonTypes: List<Int>,
     modifier: Modifier
 ) {
     LazyRow(
         modifier = modifier
     ) {
         itemsIndexed(
-            items = pokemonTypes?.toList() ?: emptyList(),
+            items = pokemonTypes,
             key = { id, _ -> id }
         ) { id, iconId ->
             Image(
                 painter = painterResource(iconId),
                 contentDescription = null
             )
-            if (pokemonTypes?.size?.compareTo(1) == 1 && id < 1) {
+            if (pokemonTypes.size.compareTo(1) == 1 && id < 1) {
                 Spacer(
                     modifier = Modifier
                         .padding(
-                            horizontal = dimensionResource(
-                                R.dimen.padding_small
-                            )
+                            horizontal = dimensionResource(R.dimen.padding_small)
                         )
                 )
             }
@@ -289,7 +278,7 @@ fun PokemonScreenPreview() {
                 names = arrayListOf(
                     Pair(Language.SPANISH.tag, "Bulbasaur")
                 ),
-                sprites = arrayListOf("", ""),
+                sprites = arrayListOf(String.EMPTY_STRING, String.EMPTY_STRING),
                 types = arrayListOf(PokemonType.GRASS, PokemonType.POISON),
                 pokemonSpecies = PokemonSpecies(
                     names = arrayListOf(

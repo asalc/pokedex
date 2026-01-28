@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import es.shiro.pokedex.data.database.PokeDatabase
+import es.shiro.pokedex.data.database.PokemonDataBase
 import es.shiro.pokedex.data.database.DatabaseConfig
 import javax.inject.Singleton
 
@@ -20,9 +20,9 @@ class DatabaseModule {
     fun providesDatabase(
         @ApplicationContext
         context: Context
-    ): PokeDatabase = Room.databaseBuilder(
+    ): PokemonDataBase = Room.databaseBuilder(
         context,
-        PokeDatabase::class.java,
+        PokemonDataBase::class.java,
         DatabaseConfig.DATABASE_NAME
     ).build()
 }

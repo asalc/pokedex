@@ -9,7 +9,6 @@ import es.shiro.pokedex.data.model.remote.PokemonTypeRemoteDto
 import es.shiro.pokedex.domain.model.Pokemon
 import es.shiro.pokedex.domain.model.PokemonSpecies
 import es.shiro.pokedex.domain.model.PokemonType
-import kotlin.collections.ArrayList
 
 fun PokemonRemoteDto.toDomain(): Pokemon =
     Pokemon(
@@ -17,7 +16,7 @@ fun PokemonRemoteDto.toDomain(): Pokemon =
         names = mapNamesList(
             speciesDetails?.names.orEmpty()
         ),
-        sprites = arrayListOf(
+        sprites = listOf(
             sprites?.frontDefault.orEmpty(),
             sprites?.backDefault.orEmpty()
         ),
@@ -48,7 +47,15 @@ fun Pokemon.toLocalDto(): PokemonLocalDto =
 fun PokemonSpeciesRemoteDto.toDomain(): PokemonSpecies =
     PokemonSpecies(
         id = id.orDefault(),
-        names = mapNamesList(names ?: ArrayList())
+        names = mapNamesList(names.orEmpty()),
+        genera = mapNamesList(
+            genera?.map {
+                NameRemoteDto(
+                    name = it.name,
+                    language = it.language
+                )
+            }.orEmpty()
+        )
     )
 
 private fun mapNamesList(

@@ -30,11 +30,11 @@ class PokemonRemoteRepositoryImpl(
                 pokemonRemoteDataSource.getPokemon(offset, limit)
             if (response.isSuccessful && response.body() != null) {
                 val pager = response.body()
-                Pager<Generic>(
+                Pager(
                     count = pager?.count.orDefault(),
-                    next = pager?.next,
-                    previous = pager?.previous,
-                    results = pager?.results?.map { it.toDomain() }
+                    next = pager?.next.orEmpty(),
+                    previous = pager?.previous.orEmpty(),
+                    results = pager?.results?.map { it.toDomain() }.orEmpty()
                 )
             } else throw Exception(context.getString(R.string.generic_error))
         }
@@ -46,8 +46,7 @@ class PokemonRemoteRepositoryImpl(
             val response: Response<PokemonRemoteDto> =
                 pokemonRemoteDataSource.getPokemonById(id)
             if (response.isSuccessful && response.body() != null) {
-                val pokemonRemote = response.body() as PokemonRemoteDto
-                pokemonRemote.toDomain()
+                (response.body() as PokemonRemoteDto).toDomain()
             } else throw Exception(context.getString(R.string.generic_error))
         }
 
@@ -58,8 +57,7 @@ class PokemonRemoteRepositoryImpl(
             val response: Response<PokemonSpeciesRemoteDto> =
                 pokemonRemoteDataSource.getPokemonSpecies(id)
             if (response.isSuccessful && response.body() != null) {
-                val pokemonSpeciesRemote = response.body() as PokemonSpeciesRemoteDto
-                pokemonSpeciesRemote.toDomain()
+                (response.body() as PokemonSpeciesRemoteDto).toDomain()
             } else throw Exception(context.getString(R.string.generic_error))
         }
 }

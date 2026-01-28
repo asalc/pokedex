@@ -2,17 +2,15 @@ package es.shiro.pokedex.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ComposableTarget
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import es.shiro.domain.model.GenericId
 import es.shiro.pokedex.R
+import es.shiro.pokedex.domain.model.GenericId
 
 @Composable
 fun <T> PokedexGrid(

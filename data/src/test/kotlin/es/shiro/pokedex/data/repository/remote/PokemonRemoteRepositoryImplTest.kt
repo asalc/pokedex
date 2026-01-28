@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertNull
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -50,9 +49,9 @@ class PokemonRemoteRepositoryImplTest {
         // Then
         result.getOrNull()?.let {
             assertEquals(0, it.count)
-            assertNull(it.next)
-            assertNull(it.previous)
-            assertNull(it.results)
+            assertTrue(it.next.isEmpty())
+            assertTrue(it.previous.isEmpty())
+            assertTrue(it.results.isEmpty())
             return@let
         }
         return@runBlocking
@@ -70,9 +69,9 @@ class PokemonRemoteRepositoryImplTest {
         // Then
         result.getOrNull()?.let {
             assertEquals(genericPager.count, it.count)
-            assertFalse(it.next.isNullOrEmpty())
-            assertFalse(it.previous.isNullOrEmpty())
-            assertFalse(it.results.isNullOrEmpty())
+            assertFalse(it.next.isEmpty())
+            assertFalse(it.previous.isEmpty())
+            assertFalse(it.results.isEmpty())
             return@let
         }
         return@runBlocking

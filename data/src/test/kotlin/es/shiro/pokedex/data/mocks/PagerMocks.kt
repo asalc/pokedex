@@ -8,5 +8,5 @@ internal val genericPager = Pager(
     count = 0,
     next = "next",
     previous = "previous",
-    results = arrayListOf(genericRemoteDto)
+    results = listOf(genericRemoteDto)
 )

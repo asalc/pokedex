@@ -18,7 +18,7 @@ import es.shiro.pokedex.data.repository.local.data_source.PokemonLocalDataSource
 )
 
 @TypeConverters(DatabaseTypeConverters::class)
-abstract class PokeDatabase: RoomDatabase() {
+abstract class PokemonDataBase: RoomDatabase() {
     abstract fun itemDao(): ItemLocalDataSource
     abstract fun pokemonDao(): PokemonLocalDataSource
 }

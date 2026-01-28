@@ -6,10 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.shiro.domain.model.Item
-import es.shiro.domain.use_cases.items.GetItemByIdUseCase
-import es.shiro.domain.use_cases.items.GetItemsUseCase
 import es.shiro.pokedex.UiState
+import es.shiro.pokedex.domain.model.Item
+import es.shiro.pokedex.domain.use_cases.items.GetItemByIdUseCase
+import es.shiro.pokedex.domain.use_cases.items.GetItemsUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,7 +47,7 @@ class ItemsViewModel @Inject constructor(
     private fun getItemsTotalCount() {
         viewModelScope.launch {
             try {
-                getItemsUseCase(limit).fold(
+                getItemsUseCase.getItems(limit).fold(
                     ifLeft = { error ->
                         uiState.value = UiState.Error
                         throw error
@@ -57,7 +57,7 @@ class ItemsViewModel @Inject constructor(
                         getItems()
                     }
                 )
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 uiState.value = UiState.Error
             }
         }
@@ -72,7 +72,7 @@ class ItemsViewModel @Inject constructor(
                 for (i in firstIndex until firstIndex + limit) {
                     if (i <= totalCount) {
                         itemsList.add(
-                            getItemByIdUseCase(i).fold(
+                            getItemByIdUseCase.getItemById(i).fold(
                                 ifLeft = { error ->
                                     uiState.value = UiState.Error
                                     throw error
@@ -83,7 +83,7 @@ class ItemsViewModel @Inject constructor(
                     }
                 }
                 uiState.value = UiState.ShowContent
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 uiState.value = UiState.Error
             }
         }

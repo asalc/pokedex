@@ -6,10 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.shiro.domain.model.Pokemon
-import es.shiro.domain.use_cases.pokemon.GetPokemonByIdUseCase
-import es.shiro.domain.use_cases.pokemon.GetPokemonUseCase
 import es.shiro.pokedex.UiState
+import es.shiro.pokedex.domain.model.Pokemon
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonByIdUseCase
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,7 +47,7 @@ class PokemonViewModel @Inject constructor(
     private fun getPokemonTotalCount() {
         viewModelScope.launch {
             try {
-                getPokemonUseCase(limit).fold(
+                getPokemonUseCase.getPokemon(limit).fold(
                     ifLeft = { error ->
                         uiState.value = UiState.Error
                         throw error
@@ -57,7 +57,7 @@ class PokemonViewModel @Inject constructor(
                         getPokemon()
                     }
                 )
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 uiState.value = UiState.Error
             }
         }
@@ -72,7 +72,7 @@ class PokemonViewModel @Inject constructor(
                 for (i in firstIndex until firstIndex + limit) {
                     if (i <= totalCount.intValue) {
                         pokemonList.add(
-                            getPokemonByIdUseCase(i).fold(
+                            getPokemonByIdUseCase.getPokemonById(i).fold(
                                 ifLeft = { error ->
                                     uiState.value = UiState.Error
                                     throw error
@@ -83,7 +83,7 @@ class PokemonViewModel @Inject constructor(
                     }
                 }
                 uiState.value = UiState.ShowContent
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 uiState.value = UiState.Error
             }
         }

@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import es.shiro.pokedex.data.api.PokedexApi
-import es.shiro.pokedex.data.database.PokeDatabase
+import es.shiro.pokedex.data.database.PokemonDataBase
 import es.shiro.pokedex.data.repository.local.data_source.ItemLocalDataSource
 import es.shiro.pokedex.data.repository.local.data_source.PokemonLocalDataSource
 import es.shiro.pokedex.data.repository.remote.data_source.ItemRemoteDataSource
@@ -17,27 +17,15 @@ import es.shiro.pokedex.data.repository.remote.data_source.PokemonRemoteDataSour
 @InstallIn(SingletonComponent::class)
 class DataSourceModule {
 
-    //LOCAL
-    /*@Provides
-    fun providesBerryLocalDataSource(
-        pokeDatabase: PokeDatabase
-    ): BerryLocalDataSource = pokeDatabase.berryDao()*/
-
     @Provides
     fun providesItemLocalDataSource(
-        pokeDatabase: PokeDatabase
-    ): ItemLocalDataSource = pokeDatabase.itemDao()
+        dataBase: PokemonDataBase
+    ): ItemLocalDataSource = dataBase.itemDao()
 
     @Provides
     fun providesPokemonLocalDataSource(
-        pokeDatabase: PokeDatabase
-    ): PokemonLocalDataSource = pokeDatabase.pokemonDao()
-
-    //REMOTE
-    /*@Provides
-    fun providesBerryRemoteDataSource(
-        api: Api
-    ): BerryRemoteDataSource = BerryRemoteDataSourceImpl(api)*/
+        dataBase: PokemonDataBase
+    ): PokemonLocalDataSource = dataBase.pokemonDao()
 
     @Provides
     fun providesItemRemoteDataSource(

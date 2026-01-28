@@ -1,13 +1,11 @@
 package es.shiro.pokedex.navigation
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import es.shiro.pokedex.R
 
 sealed class NavigationItem(
     var route: String,
-    @DrawableRes val icon: Int,
-    @StringRes val title: Int
+    val icon: Int,
+    val title: Int
 ) {
     object Pokemon: NavigationItem(
         route = "pokemon",

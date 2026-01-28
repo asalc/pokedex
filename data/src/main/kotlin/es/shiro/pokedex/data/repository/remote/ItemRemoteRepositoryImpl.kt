@@ -15,7 +15,7 @@ import es.shiro.pokedex.domain.repository.remote.ItemRemoteRepository
 import retrofit2.Response
 
 class ItemRemoteRepositoryImpl(
-    private val itemRemoteDataSource: ItemRemoteDataSource,
+    private val remoteDataSource: ItemRemoteDataSource,
     private val context: Context
 ): ItemRemoteRepository {
 
@@ -24,14 +24,14 @@ class ItemRemoteRepositoryImpl(
     ): Either<Throwable, Pager<Generic>> =
         Either.catch {
             val response: Response<Pager<GenericRemoteDto>> =
-                itemRemoteDataSource.getItems(offset, limit)
+                remoteDataSource.getItems(offset, limit)
             if (response.isSuccessful && response.body() != null) {
                 val pager = response.body()
-                Pager<Generic>(
+                Pager(
                     count = pager?.count.orDefault(),
-                    next = pager?.next,
-                    previous = pager?.previous,
-                    results = pager?.results?.map { it.toDomain() }
+                    next = pager?.next.orEmpty(),
+                    previous = pager?.previous.orEmpty(),
+                    results = pager?.results?.map { it.toDomain() }.orEmpty()
                 )
             } else throw Exception(context.getString(R.string.generic_error))
         }
@@ -41,10 +41,9 @@ class ItemRemoteRepositoryImpl(
     ): Either<Throwable, Item> =
         Either.catch {
             val response: Response<ItemRemoteDto> =
-                itemRemoteDataSource.getItemById(id)
+                remoteDataSource.getItemById(id)
             if (response.isSuccessful && response.body() != null) {
-                val itemRemote = response.body() as ItemRemoteDto
-                itemRemote.toDomain()
+                (response.body() as ItemRemoteDto).toDomain()
             } else throw Exception(context.getString(R.string.generic_error))
         }
 }

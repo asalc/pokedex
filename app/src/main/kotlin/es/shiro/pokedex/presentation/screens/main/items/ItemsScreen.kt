@@ -5,20 +5,17 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -30,18 +27,16 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
-import es.shiro.domain.model.Item
-import es.shiro.domain.model.Language
 import es.shiro.pokedex.R
 import es.shiro.pokedex.UiState
+import es.shiro.pokedex.common.extensions.toFormattedPrice
+import es.shiro.pokedex.domain.model.Item
+import es.shiro.pokedex.domain.model.Language
 import es.shiro.pokedex.helpers.extensions.findLanguageEntry
-import es.shiro.pokedex.helpers.extensions.toFormattedPrice
 import es.shiro.pokedex.presentation.components.ErrorPopUp
 import es.shiro.pokedex.presentation.components.PageButtons
 import es.shiro.pokedex.presentation.components.PokedexGrid
 import es.shiro.pokedex.presentation.components.ProgressLoader
-import es.shiro.pokedex.presentation.theme.ColorRed
-import java.util.*
 
 @Composable
 fun ItemsScreen(
@@ -104,7 +99,7 @@ fun ItemsScreen(
                 message = context.getString(R.string.network_error),
                 closeText = context.getString(R.string.dismiss_dialog)
             ) {
-                if (viewModel.page.value > 1)
+                if (viewModel.page.intValue > 1)
                     viewModel.previousPage()
             }
         }

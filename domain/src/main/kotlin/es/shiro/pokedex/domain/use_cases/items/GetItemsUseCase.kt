@@ -1,30 +1,7 @@
 package es.shiro.pokedex.domain.use_cases.items
 
 import arrow.core.Either
-import es.shiro.pokedex.domain.repository.local.ItemLocalRepository
-import es.shiro.pokedex.domain.repository.remote.ItemRemoteRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
-class GetItemsUseCase(
-    private val itemLocalRepository: ItemLocalRepository,
-    private val itemRemoteRepository: ItemRemoteRepository,
-    private val getItemByIdUseCase: GetItemByIdUseCase
-) {
-    suspend operator fun invoke(limit: Int): Either<Throwable, Int> =
-        withContext(Dispatchers.IO) {
-            return@withContext Either.catch {
-                itemRemoteRepository.getItems().fold(
-                    ifLeft = { error -> throw error },
-                    ifRight = { itemPager ->
-                        if (itemLocalRepository.getCount() < limit) {
-                            for (i in 1 until limit + 1) {
-                                getItemByIdUseCase(i)
-                            }
-                        }
-                        itemPager.count
-                    }
-                )
-            }
-        }
+interface GetItemsUseCase {
+    suspend fun getItems(limit: Int): Either<Throwable, Int>
 }

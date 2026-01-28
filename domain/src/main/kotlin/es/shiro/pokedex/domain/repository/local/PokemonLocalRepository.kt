@@ -7,9 +7,9 @@ interface PokemonLocalRepository {
 
     suspend fun insert(pokemon: Pokemon)
 
-    suspend fun getPokemonById(id: Int): List<Pokemon>
+    suspend fun getPokemonById(id: Int): Pokemon?
 
-    suspend fun getPokemonSpecies(id: Int): List<PokemonSpecies>
+    suspend fun getPokemonSpecies(id: Int): PokemonSpecies?
 
     suspend fun getCount(): Int
 }
