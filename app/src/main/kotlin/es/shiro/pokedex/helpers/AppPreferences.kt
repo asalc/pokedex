@@ -3,7 +3,7 @@ package es.shiro.pokedex.helpers
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import java.util.Locale
+import es.shiro.pokedex.domain.model.Language
 
 class AppPreferences(val context: Context) {
 
@@ -14,10 +14,10 @@ class AppPreferences(val context: Context) {
         get() = context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE)
 
     fun getLanguage(): String =
-        sharedPreferences?.getString(LANGUAGE, null) ?: Locale.getDefault().language
+        sharedPreferences?.getString(LANGUAGE, null) ?: Language.ENGLISH.tag
 
     fun setLanguage(language: String?) =
-        sharedPreferences?.edit {
+        sharedPreferences?.edit(commit = true) {
             putString(LANGUAGE, language)
         }
 }

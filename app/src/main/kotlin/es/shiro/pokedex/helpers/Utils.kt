@@ -11,7 +11,7 @@ object Utils {
 
     private fun updateResources(context: Context, language: String) {
         context.resources.apply {
-            val locale = Locale(language)
+            val locale = Locale.forLanguageTag(language)
             val config = Configuration(configuration)
 
             context.createConfigurationContext(configuration)

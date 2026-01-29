@@ -91,6 +91,7 @@ fun PokemonScreen(
                     )
                 }
         )
+
         AnimatedVisibility(
             visible = viewModel.uiState.value
                     is UiState.Loading,
