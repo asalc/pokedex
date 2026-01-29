@@ -1,13 +1,13 @@
-package es.shiro.pokedex.presentation.screens.main.items
+package es.shiro.pokedex.presentation.screens.main.pokemon
 
 import arrow.core.raise.either
 import es.shiro.pokedex.UiState
-import es.shiro.pokedex.domain.use_cases.items.GetItemByIdUseCase
-import es.shiro.pokedex.domain.use_cases.items.GetItemByIdUseCaseImpl
-import es.shiro.pokedex.domain.use_cases.items.GetItemsUseCase
-import es.shiro.pokedex.domain.use_cases.items.GetItemsUseCaseImpl
-import es.shiro.pokedex.presentation.mocks.emptyItem
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonByIdUseCase
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonByIdUseCaseImpl
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonUseCase
+import es.shiro.pokedex.domain.use_cases.pokemon.GetPokemonUseCaseImpl
 import es.shiro.pokedex.presentation.mocks.emptyCount
+import es.shiro.pokedex.presentation.mocks.emptyPokemon
 import es.shiro.pokedex.presentation.mocks.totalCount
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,12 +30,12 @@ import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ItemsViewModelTest {
+class PokemonViewModelTest {
 
-    private val getItemsUseCase: GetItemsUseCase = mock<GetItemsUseCaseImpl>()
-    private val getItemByIdUseCase: GetItemByIdUseCase = mock<GetItemByIdUseCaseImpl>()
+    private val getPokemonUseCase: GetPokemonUseCase = mock<GetPokemonUseCaseImpl>()
+    private val getPokemonByIdUseCase: GetPokemonByIdUseCase = mock<GetPokemonByIdUseCaseImpl>()
 
-    private lateinit var viewModel: ItemsViewModel
+    private lateinit var viewModel: PokemonViewModel
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
@@ -53,10 +53,10 @@ class ItemsViewModelTest {
     fun `nextPage increases the page value as expected`() =
         runTest {
             // Given
-            whenever(getItemsUseCase.getItems(any()))
+            whenever(getPokemonUseCase.getPokemon(any()))
                 .thenReturn(either { emptyCount })
-            whenever(getItemByIdUseCase.getItemById(any()))
-                .thenReturn(either { emptyItem })
+            whenever(getPokemonByIdUseCase.getPokemonById(any()))
+                .thenReturn(either { emptyPokemon })
 
             // When
             initializeViewModel()
@@ -71,10 +71,10 @@ class ItemsViewModelTest {
     fun `previousPage decreases the page value as expected`() =
         runTest {
             // Given
-            whenever(getItemsUseCase.getItems(any()))
+            whenever(getPokemonUseCase.getPokemon(any()))
                 .thenReturn(either { emptyCount })
-            whenever(getItemByIdUseCase.getItemById(any()))
-                .thenReturn(either { emptyItem })
+            whenever(getPokemonByIdUseCase.getPokemonById(any()))
+                .thenReturn(either { emptyPokemon })
 
             // When
             initializeViewModel()
@@ -89,10 +89,10 @@ class ItemsViewModelTest {
     fun `isPreviousButtonVisible returns expected value`() =
         runTest {
             // Given
-            whenever(getItemsUseCase.getItems(any()))
+            whenever(getPokemonUseCase.getPokemon(any()))
                 .thenReturn(either { emptyCount })
-            whenever(getItemByIdUseCase.getItemById(any()))
-                .thenReturn(either { emptyItem })
+            whenever(getPokemonByIdUseCase.getPokemonById(any()))
+                .thenReturn(either { emptyPokemon })
 
             // When
             initializeViewModel()
@@ -108,10 +108,10 @@ class ItemsViewModelTest {
     fun `isNextButtonVisible returns expected value`() =
         runTest {
             // Given
-            whenever(getItemsUseCase.getItems(any()))
+            whenever(getPokemonUseCase.getPokemon(any()))
                 .thenReturn(either { totalCount })
-            whenever(getItemByIdUseCase.getItemById(any()))
-                .thenReturn(either { emptyItem })
+            whenever(getPokemonByIdUseCase.getPokemonById(any()))
+                .thenReturn(either { emptyPokemon })
 
             // When
             initializeViewModel()
@@ -124,29 +124,29 @@ class ItemsViewModelTest {
         }
 
     @Test
-    fun `getItemsTotalCount - Error result`() =
+    fun `getPokemonTotalCount - Error result`() =
         runTest {
             // Given
-            whenever(getItemsUseCase.getItems(any()))
+            whenever(getPokemonUseCase.getPokemon(any()))
                 .thenThrow(RuntimeException())
 
             try {
                 initializeViewModel()
             } catch (_: Exception) {
                 // Then
-                verify(getItemsUseCase, times(1)).getItems(any())
-                verifyNoInteractions(getItemByIdUseCase)
+                verify(getPokemonUseCase, times(1)).getPokemon(any())
+                verifyNoInteractions(getPokemonByIdUseCase)
                 assertEquals(UiState.Error, viewModel.uiState.value)
             }
         }
 
     @Test
-    fun `getItemsTotalCount - Success result, getItems - Error result`() =
+    fun `getPokemonTotalCount - Success result, getPokemon - Error result`() =
         runTest {
             // Given
-            whenever(getItemsUseCase.getItems(any()))
+            whenever(getPokemonUseCase.getPokemon(any()))
                 .thenReturn(either { emptyCount })
-            whenever(getItemByIdUseCase.getItemById(any()))
+            whenever(getPokemonByIdUseCase.getPokemonById(any()))
                 .thenThrow(RuntimeException())
 
             // When
@@ -154,33 +154,33 @@ class ItemsViewModelTest {
                 initializeViewModel()
             } catch (_: Exception) {
                 // Then
-                verify(getItemsUseCase, times(1)).getItems(any())
-                verify(getItemByIdUseCase, atMost(1)).getItemById(any())
+                verify(getPokemonUseCase, times(1)).getPokemon(any())
+                verify(getPokemonByIdUseCase, atMost(1)).getPokemonById(any())
                 assertEquals(UiState.Error, viewModel.uiState.value)
             }
         }
 
     @Test
-    fun `getItemsTotalCount - Success result, getItems - Success result`() =
+    fun `getPokemonTotalCount - Success result, getPokemon - Success result`() =
         runTest {
             // Given
-            whenever(getItemsUseCase.getItems(any()))
+            whenever(getPokemonUseCase.getPokemon(any()))
                 .thenReturn(either { emptyCount })
-            whenever(getItemByIdUseCase.getItemById(any()))
-                .thenReturn(either { emptyItem })
+            whenever(getPokemonByIdUseCase.getPokemonById(any()))
+                .thenReturn(either { emptyPokemon })
 
             // When
             initializeViewModel()
 
             // Then
-            verify(getItemsUseCase, times(1)).getItems(any())
+            verify(getPokemonUseCase, times(1)).getPokemon(any())
             assertEquals(UiState.ShowContent, viewModel.uiState.value)
         }
 
     private fun initializeViewModel() {
-        viewModel = ItemsViewModel(
-            getItemsUseCase = getItemsUseCase,
-            getItemByIdUseCase = getItemByIdUseCase
+        viewModel = PokemonViewModel(
+            getPokemonUseCase = getPokemonUseCase,
+            getPokemonByIdUseCase = getPokemonByIdUseCase
         )
     }
 }
