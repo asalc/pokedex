@@ -59,18 +59,9 @@ fun ItemsScreen(
                     height = Dimension.fillToConstraints
                 }
         )
-        PageButtons(
-            isPreviousButtonVisible = viewModel.isPreviousButtonVisible(),
-            isNextButtonVisible = viewModel.isNextButtonVisible(),
-            page = viewModel.page,
-            onClickPrevious = {
-                if (viewModel.uiState.value != UiState.Loading)
-                    viewModel.previousPage()
-            },
-            onClickNext = {
-                if (viewModel.uiState.value != UiState.Loading)
-                    viewModel.nextPage()
-            },
+
+        AnimatedVisibility(
+            visible = viewModel.uiState.value == UiState.ShowContent,
             modifier = Modifier
                 .constrainAs(buttons) {
                     start.linkTo(parent.start)
@@ -80,7 +71,21 @@ fun ItemsScreen(
                         margin = 16.dp
                     )
                 }
-        )
+        ) {
+            PageButtons(
+                isPreviousButtonVisible = viewModel.isPreviousButtonVisible(),
+                isNextButtonVisible = viewModel.isNextButtonVisible(),
+                page = viewModel.page,
+                onClickPrevious = {
+                    if (viewModel.uiState.value != UiState.Loading)
+                        viewModel.previousPage()
+                },
+                onClickNext = {
+                    if (viewModel.uiState.value != UiState.Loading)
+                        viewModel.nextPage()
+                }
+            )
+        }
 
         AnimatedVisibility(
             visible = viewModel.uiState.value

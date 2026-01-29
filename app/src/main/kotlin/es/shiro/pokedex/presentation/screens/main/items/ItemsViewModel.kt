@@ -21,7 +21,6 @@ class ItemsViewModel @Inject constructor(
 
     var itemsList = mutableStateListOf<Item>()
     val uiState = mutableStateOf<UiState>(UiState.Loading)
-
     var page = mutableIntStateOf(1)
 
     private val limit: Int = 20
